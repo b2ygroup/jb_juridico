@@ -1,13 +1,85 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Importar fontes do Google Fonts (Exemplo) */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Open+Sans:wght@400;600;700&display=swap');
+
+:root {
+  /* Paleta de Cores */
+  --cor-primaria: #0D47A1; /* Azul Marinho Profundo */
+  --cor-secundaria: #455A64; /* Cinza Azulado Escuro */
+  --cor-acento: #B08D57; /* Dourado Envelhecido */
+  --cor-fundo: #F8F9FA; /* Cinza Muito Claro / Quase Branco */
+  --cor-fundo-contraste: #FFFFFF; /* Branco para cards e modais */
+  --cor-texto-principal: #212529; /* Preto Suave */
+  --cor-texto-secundario: #495057; /* Cinza Escuro para subtextos */
+  --cor-sucesso: #28A745;
+  --cor-erro: #DC3545;
+  --cor-borda: #DEE2E6;
+
+  /* Tipografia */
+  --fonte-titulos: 'Merriweather', serif;
+  --fonte-corpo: 'Open Sans', sans-serif;
+
+  /* Outras Variáveis */
+  --raio-borda: 8px;
+  --sombra-padrao: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --sombra-hover: 0 6px 16px rgba(0, 0, 0, 0.12);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  margin: 0;
+  font-family: var(--fonte-corpo);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto-principal);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--fonte-titulos);
+  color: var(--cor-primaria);
+  margin-top: 0;
+}
+
+a {
+  color: var(--cor-acento);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: var(--fonte-corpo);
+  cursor: pointer;
+}
+
+/* Ajuste global para box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Em :root no seu index.css */
+:root {
+  /* ... suas outras variáveis ... */
+  --cor-primaria-rgb: 13, 71, 161; /* Os valores R, G, B da sua cor primária */
+}
+
+/* Em :root no seu index.css ou App.css */
+:root {
+  /* ... suas outras variáveis ... */
+  --cor-primaria: #0D47A1;
+  --cor-primaria-rgb: 13, 71, 161; /* R, G, B da cor primária */
+  
+  --cor-acento: #B08D57;
+  --cor-acento-rgb: 176, 141, 87; /* R, G, B da cor de acento */
+}
+
+:root {
+  /* ... suas outras variáveis ... */
+  --cor-primaria-rgb: 13, 71, 161;
+  --cor-acento-rgb: 176, 141, 87;
+  --cor-fundo-contraste-rgb: 255, 255, 255; /* Para o glow do botão */
 }

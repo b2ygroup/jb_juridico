@@ -1,0 +1,140 @@
+.processos-list-page { 
+  padding: 1.5rem; 
+}
+
+.page-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 2rem; 
+}
+
+.page-title { 
+  font-family: var(--fonte-titulos); 
+  color: var(--cor-primaria); 
+  font-size: 2rem; 
+  border-bottom: 2px solid var(--cor-acento); 
+  padding-bottom: 0.5rem; 
+  display: inline-block; 
+  margin-bottom: 0; 
+}
+
+.button-primary-alt { 
+  background-color: var(--cor-acento); 
+  color: white; 
+  padding: 0.75rem 1.25rem; 
+  border: none; 
+  border-radius: var(--raio-borda); 
+  font-size: 0.95rem; 
+  font-weight: 600; 
+  display: flex; 
+  align-items: center; 
+  text-decoration: none; /* Para o Link */
+  transition: background-color 0.3s ease, transform 0.2s ease; 
+}
+
+.button-primary-alt:hover { 
+  background-color: #967443; 
+  transform: translateY(-2px); 
+}
+
+.processos-table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  background-color: var(--cor-fundo-contraste); 
+  border-radius: var(--raio-borda); 
+  box-shadow: var(--sombra-padrao); 
+  overflow: hidden; 
+}
+
+.processos-table th,
+.processos-table td { 
+  padding: 1rem 1.25rem; 
+  text-align: left; 
+  border-bottom: 1px solid var(--cor-borda); 
+}
+
+.processos-table th { 
+  font-family: var(--fonte-corpo); 
+  font-weight: 600; 
+  font-size: 0.9rem; 
+  color: var(--cor-texto-secundario); 
+  background-color: #f8f9fa; 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px; 
+}
+
+.processos-table tbody tr:hover { 
+  background-color: #f1f3f5; 
+}
+
+.processos-table td { 
+  font-size: 0.95rem; 
+  color: var(--cor-texto-principal); 
+  vertical-align: middle; /* Alinha melhor o conteúdo da célula */
+}
+
+/* --- INÍCIO: Estilos Corrigidos para Status Badges --- */
+.status-badge {
+  padding: 0.25em 0.7em; 
+  font-size: 0.75rem; 
+  font-weight: 700; 
+  border-radius: 12px; 
+  color: white; /* Texto branco por padrão */
+  text-transform: capitalize;
+  display: inline-block;
+  line-height: 1.2; 
+  text-align: center;
+  white-space: nowrap; 
+}
+
+/* Cores específicas para cada status */
+.status-novo                 { background-color: var(--cor-sucesso); color: white; } /* Verde */
+.status-em-andamento         { background-color: #17A2B8; color: white; } /* Azul Info */
+.status-suspenso             { background-color: #FD7E14; color: white; } /* Laranja */
+.status-aguardando-documentos{ background-color: #6f42c1; color: white; } /* Roxo */
+.status-pendente-análise     { background-color: #FFC107; color: var(--cor-texto-principal); } /* Amarelo (texto escuro) */
+.status-concluído            { background-color: var(--cor-secundaria); color: white;} /* Cinza Azulado */
+.status-arquivado            { background-color: #adb5bd; color: var(--cor-texto-principal);} /* Cinza Claro (texto escuro) */
+.status-desconhecido         { background-color: #6c757d; color: white; } /* Cinza Padrão */
+/* --- FIM: Estilos Corrigidos para Status Badges --- */
+
+
+.action-link { 
+  color: var(--cor-acento); 
+  font-weight: 600; 
+  text-decoration: none; 
+  padding: 0.25rem 0.5rem; 
+  border-radius: calc(var(--raio-borda) / 2); 
+  transition: background-color 0.2s ease, color 0.2s ease; 
+}
+
+.action-link:hover { 
+  background-color: var(--cor-acento); 
+  color: white; 
+  text-decoration: none; 
+}
+
+.empty-state { 
+  text-align: center; 
+  padding: 3rem; 
+  font-size: 1.1rem; 
+  color: var(--cor-texto-secundario); 
+  background-color: var(--cor-fundo-contraste); 
+  border-radius: var(--raio-borda); 
+  box-shadow: var(--sombra-padrao); 
+}
+
+/* Estilos para mensagens de loading/erro se você os tiver neste componente */
+.loading-message, .error-message {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: var(--cor-texto-secundario);
+}
+.error-message {
+  color: var(--cor-erro);
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  border-radius: var(--raio-borda);
+}

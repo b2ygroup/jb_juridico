@@ -1,0 +1,153 @@
+/* src/PortalClienteHomePage.css */
+
+/* Garanta que as variáveis de cor (--cor-fundo-contraste, --cor-acento, etc.) 
+   estão definidas globalmente no seu index.css ou App.css */
+
+.portal-cliente-page-container {
+  padding: 2rem 2.5rem;
+  background-color: var(--cor-fundo-escuro-principal, #0a1024); /* Cor de fundo escura do dashboard */
+  color: var(--cor-texto-claro-principal, #cbd5e1); /* Cor de texto padrão clara */
+  min-height: calc(100vh - 65px); /* Subtrai altura do header do PortalClienteLayout */
+  animation: fadeIn 0.5s ease-out; /* Reutilizando animação fadeIn */
+}
+
+@keyframes fadeIn { /* Se já não estiver definido globalmente */
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.portal-cliente-header-main {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.3);
+  text-align: left;
+}
+
+.portal-cliente-header-main h1 {
+  font-size: 2.25rem;
+  color: var(--cor-fundo-contraste, #FFFFFF); /* Branco */
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.portal-cliente-header-main p {
+  font-size: 1.1rem;
+  color: var(--cor-texto-claro-secundario, #94a3b8); /* Cinza azulado claro */
+  font-weight: 300;
+}
+
+.portal-cliente-section {
+  background-color: rgba(30, 41, 59, 0.7); /* Mesmo fundo de card do dashboard do adv */
+  border: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.4);
+  border-radius: var(--raio-borda, 8px);
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+.portal-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(var(--cor-acento-rgb, 176, 141, 87), 0.2);
+}
+
+.portal-card-header h3 {
+  font-size: 1.4rem;
+  color: var(--cor-fundo-contraste, #FFFFFF);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-family: var(--fonte-titulos);
+  font-weight: 500;
+}
+.portal-card-header h3 .list-icon-placeholder, /* Se usar um span para o ListIcon */
+.portal-card-header h3 span[style*="margin-right"] { /* Para o ListIcon atual */
+  color: var(--cor-acento);
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+/* O botão .button-primary-alt.small-button deve vir do App.css */
+/* Verifique se o App.css tem estilos para .button-primary-alt que contrastem bem em fundo escuro */
+/* Exemplo de como poderia ser, se não estiver em App.css: */
+/*
+.button-primary-alt.small-button {
+  background-color: var(--cor-acento);
+  color: var(--cor-primaria); 
+  padding: 0.5rem 1rem;
+  border-radius: var(--raio-borda);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+}
+.button-primary-alt.small-button:hover {
+  background-color: #c8a053; 
+}
+*/
+
+.portal-card-content {
+  color: var(--cor-texto-claro-principal, #cbd5e1);
+}
+
+.loading-text-portal {
+  padding: 1rem;
+  text-align: center;
+  font-style: italic;
+  color: var(--cor-texto-claro-secundario, #94a3b8);
+}
+
+.info-list-styled-portal {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.info-list-styled-portal li {
+  padding: 0.7rem 0.3rem;
+  border-bottom: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.15);
+  transition: background-color 0.2s ease;
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info-list-styled-portal li:last-child { border-bottom: none; }
+.info-list-styled-portal li:hover { background-color: rgba(var(--cor-acento-rgb, 176, 141, 87), 0.05); }
+
+.info-title-portal {
+  font-weight: 500;
+  flex-grow: 1;
+  margin-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cor-texto-claro-principal, #cbd5e1);
+}
+.info-tag-portal {
+  font-size: 0.7rem;
+  padding: 0.2em 0.6em;
+  border-radius: 10px;
+  white-space: nowrap;
+  color: white;
+  /* Adicionar cores específicas para status de ocorrência aqui, ex: */
+  /* background-color: var(--cor-secundaria); */
+}
+.info-tag-portal.status-enviada { background-color: var(--cor-primaria); }
+.info-tag-portal.status-em-análise { background-color: #FFBB28; color: #333; } /* Amarelo/Laranja para "Em Análise" */
+.info-tag-portal.status-aceito { background-color: var(--cor-sucesso); }
+
+
+.empty-state-portal {
+  text-align: center;
+  padding: 1rem 0;
+  color: var(--cor-texto-claro-secundario, #94a3b8);
+  font-style: italic;
+}

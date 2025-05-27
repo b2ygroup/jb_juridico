@@ -1,38 +1,152 @@
-.App {
-  text-align: center;
-}
+/* src/App.css */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Estilos Globais da Aplicação */
+.App-container {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+}
+
+.App-container.loading-app {
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 1.2rem;
+  color: var(--cor-texto-secundario);
+}
+
+/* Layout Principal do Dashboard com Sidebar */
+.dashboard-layout { 
+  display: flex; 
+  flex-direction: row; 
+  min-height: 100vh; 
+}
+
+.dashboard-main-content {
+    display: flex;
+    flex-direction: column; 
+    flex-grow: 1; 
+    min-width: 0; 
+}
+
+.dashboard-header {
+  background-color: #1e293b; 
+  padding: 0 2rem; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3); 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  border-bottom: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.5); 
+  height: 65px; 
+  flex-shrink: 0; 
+  color: var(--cor-fundo-contraste); 
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; 
+}
+
+.button-quick-action-header {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--cor-primaria); 
+    color: white;
+    padding: 0.5rem 1rem; 
+    border: none; 
+    border-radius: var(--raio-borda);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.1s ease, color 0.2s ease;
+    cursor: pointer; 
+}
+.button-quick-action-header:hover {
+    background-color: var(--cor-acento); 
+    color: #050a1f; 
+    transform: translateY(-1px);
+}
+.button-quick-action-header:active { transform: translateY(0); }
+.button-quick-action-header .nav-icon, 
+.button-quick-action-header svg,
+.button-quick-action-header span[style*="margin-right"] { 
+     margin-right: 0.4rem;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.user-info span {
+  font-size: 0.9rem;
+  color: #cbd5e1; 
+}
+
+.button-logout {
+  background-color: var(--cor-acento);
+  color: #050a1f; 
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: var(--raio-borda);
+  font-size: 0.9rem;
+  font-weight: 500; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: pointer;
+}
+.button-logout:hover {
+  background-color: #c8a053; 
+  color: black;
+}
+
+.dashboard-content-area {
+  flex-grow: 1; 
+  background-color: #0f172a; 
+  overflow-y: auto; 
+}
+
+/* Estilos para Portal do Cliente */
+.portal-cliente-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--cor-fundo); 
+}
+
+.portal-cliente-header {
+  background-color: var(--cor-primaria); 
   color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--sombra-padrao);
+}
+.portal-cliente-header h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0;
+}
+/* Reutilizar .user-info e .button-logout do .dashboard-header ou criar específicos */
+/* .portal-cliente-header .user-info { } */
+/* .portal-cliente-header .button-logout { } */
+
+
+.portal-cliente-content-area {
+  flex-grow: 1;
+  padding: 2rem;
 }
 
-.App-link {
-  color: #61dafb;
+.portal-cliente-footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: var(--cor-secundaria);
+    color: rgba(255,255,255,0.7);
+    font-size: 0.85rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+/* Linha 139 que causava o warning (emptyRules) foi implicitamente removida
+   se não houver mais regras vazias neste arquivo consolidado.
+   Se você tiver uma regra vazia como .alguma-classe { } em algum lugar, delete-a.
+   O código acima não contém regras vazias.
+*/

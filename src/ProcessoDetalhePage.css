@@ -1,0 +1,229 @@
+/* Adicionar ao final de src/ProcessoDetalhePage.css */
+
+/* Formulário para adicionar andamento */
+.add-andamento-form {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px dashed var(--cor-borda);
+}
+
+.add-andamento-form .form-group {
+  margin-bottom: 0.75rem;
+}
+
+.add-andamento-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--cor-texto-secundario);
+  font-size: 0.9rem;
+}
+
+.add-andamento-form textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: calc(var(--raio-borda) / 2);
+  font-size: 0.95rem;
+  font-family: var(--fonte-corpo);
+  background-color: #fdfdff;
+  resize: vertical;
+  min-height: 60px;
+}
+.add-andamento-form textarea:focus {
+  outline: none;
+  border-color: var(--cor-acento);
+  box-shadow: 0 0 0 3px rgba(176, 141, 87, 0.15);
+}
+
+/* Botão de adicionar menor */
+.button-primary-alt.small-button {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Container e Lista de Andamentos */
+.andamentos-list-container {
+  margin-top: 1rem;
+}
+
+.andamentos-lista {
+list-style: none;
+padding-left: 0;
+margin: 0;
+}
+
+.andamentos-lista li {
+padding: 1rem 0;
+border-bottom: 1px solid var(--cor-borda); /* Linha sólida entre andamentos */
+display: flex;
+gap: 1rem;
+align-items: flex-start;
+}
+.andamentos-lista li:last-child {
+border-bottom: none;
+padding-bottom: 0; /* Remove padding extra do último item */
+}
+
+.andamento-data {
+  font-weight: 600;
+  color: var(--cor-secundaria);
+  font-size: 0.85rem;
+  white-space: nowrap; /* Não quebrar data/hora */
+  min-width: 120px; /* Largura mínima para alinhar */
+}
+
+.andamento-desc {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--cor-texto-principal);
+  line-height: 1.5;
+  flex-grow: 1; /* Ocupa o espaço restante */
+}
+
+.andamento-user {
+  font-size: 0.75rem;
+  color: var(--cor-texto-secundario);
+  font-style: italic;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+/* Mensagens de loading/erro menores para andamentos */
+.loading-message.small-loading,
+.error-message.small-error,
+.empty-state.small-empty {
+  padding: 1rem;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+.empty-state.small-empty {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 1rem 0;
+}
+
+/* Adicionar ao final de src/ProcessoDetalhePage.css */
+
+/* Alinha título e botão na mesma linha */
+.card-header-with-action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem; /* Espaço antes do conteúdo */
+  border-bottom: 1px solid var(--cor-borda);
+  padding-bottom: 0.5rem;
+}
+.card-header-with-action h3 {
+  margin-bottom: 0; /* Remove margem do h3 */
+  border-bottom: none; /* Remove borda do h3 */
+  padding-bottom: 0;
+}
+
+/* Estilo para botão pequeno */
+.button-secondary-alt.small-button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+.button-secondary-alt.small-button svg,
+.button-secondary-alt.small-button .icon-placeholder,
+.button-secondary-alt.small-button span[style*="margin-right"] { /* Aplica ao ícone SparkleIcon */
+  margin-right: 0.4rem;
+  font-size: 1em; /* Tamanho do ícone relativo ao botão */
+}
+
+
+/* Container para o resultado da IA */
+.resumo-ia-container {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--cor-borda);
+}
+
+.resumo-ia-content {
+  background-color: #e9f5ff; /* Fundo levemente azulado */
+  border-left: 4px solid var(--cor-primaria);
+  padding: 0.8rem 1.2rem;
+  border-radius: var(--raio-borda);
+  font-size: 0.9rem;
+  color: #333;
+}
+.resumo-ia-content h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: var(--cor-primaria);
+  font-family: var(--fonte-corpo); /* Usar fonte do corpo para consistência */
+  font-weight: 600;
+}
+.resumo-ia-content p {
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+/* Mensagens de loading/erro menores (reutilizadas) */
+.loading-message.small-loading,
+.error-message.small-error {
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  margin-top: 0;
+  text-align: left;
+}
+.error-message.small-error {
+  background-color: transparent;
+  border: none;
+  padding-left: 0;
+}
+
+/* Adicionar/Modificar em src/ProcessoDetalhePage.css */
+
+/* ... (estilos existentes) ... */
+
+.andamento-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.3rem;
+}
+
+.button-ia-andamento {
+  background-color: transparent;
+  border: 1px solid var(--cor-acento);
+  color: var(--cor-acento);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: var(--raio-borda);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  margin-left: 1rem; /* Espaço da data */
+}
+.button-ia-andamento:hover {
+  background-color: var(--cor-acento);
+  color: white;
+}
+.button-ia-andamento:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.button-ia-andamento .icon-placeholder, /* Para o SparkleIcon */
+.button-ia-andamento span[style*="margin-right"] {
+  margin-right: 0.3em;
+  font-size: 0.9em;
+}
+
+.resumo-ia-content.sub-resumo {
+  margin-top: 0.75rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  background-color: #f0f4f8; /* Cor de fundo ligeiramente diferente para sub-resumo */
+}
+.resumo-ia-content.sub-resumo h4 {
+  font-size: 0.9rem;
+}
+
+/* Garante que o texto do botão "Resumir Observações" não quebre em telas menores */
+.card-header-with-action .button-secondary-alt.small-button {
+  white-space: nowrap;
+}

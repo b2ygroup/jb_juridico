@@ -1,0 +1,375 @@
+/* src/Dashboard.css - REDESIGN FUTURISTA (SEU ARQUIVO da Resposta #229 com ajustes para 3 colunas) */
+
+/* Certifique-se que variáveis de cor e fontes estão em index.css/App.css */
+
+@keyframes subtlePulse {
+  0% { box-shadow: 0 0 8px rgba(var(--cor-acento-rgb), 0.3); }
+  50% { box-shadow: 0 0 16px rgba(var(--cor-acento-rgb), 0.5); }
+  100% { box-shadow: 0 0 8px rgba(var(--cor-acento-rgb), 0.3); }
+}
+
+@keyframes fadeInFromBottom {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Adicionado para o fadeIn do container principal do dashboard, se não estiver global */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dashboard-futuristic-container {
+  padding: 2rem 2.5rem;
+  background-color: #0a1024; /* Tom ainda mais escuro, quase preto-azulado */
+  color: #cbd5e1; /* Texto padrão: cinza azulado claro */
+  min-height: calc(100vh - 65px); /* Altura da viewport menos o header */
+  animation: fadeIn 0.5s ease-out;
+}
+
+.dashboard-main-header {
+  margin-bottom: 2.5rem;
+  text-align: left; /* Ou center */
+}
+
+.dashboard-main-header h1 {
+  font-size: 2.5rem; /* Maior */
+  color: var(--cor-fundo-contraste);
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.dashboard-main-header p {
+  font-size: 1.1rem;
+  color: #94a3b8; /* Cinza ardósia médio */
+  font-weight: 300;
+}
+
+/* Seção de Destaque dos KPIs */
+.kpi-highlight-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.kpi-main-card, .kpi-chart-card {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(13, 21, 38, 0.7)); /* Fundo com gradiente escuro */
+  border: 1px solid rgba(var(--cor-primaria-rgb), 0.3);
+  border-radius: 12px; /* Bordas mais arredondadas */
+  padding: 1.8rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2),
+              inset 0 1px 0 rgba(255,255,255,0.05); /* Sombra e brilho interno */
+  animation: fadeInFromBottom 0.5s ease-out forwards;
+  opacity: 0;
+}
+.kpi-highlight-section > div:nth-child(1) { animation-delay: 0.1s; }
+.kpi-highlight-section > div:nth-child(2) { animation-delay: 0.2s; }
+
+
+.kpi-main-card .kpi-title, .kpi-chart-card h3 {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  color: var(--cor-fundo-contraste);
+  margin: 0 0 1.5rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(var(--cor-acento-rgb), 0.2);
+  font-family: var(--fonte-titulos);
+  font-weight: 500;
+}
+.dash-icon-title { /* Estilo genérico para ícones de título de card */
+  margin-right: 0.75rem;
+  color: var(--cor-acento);
+  font-size: 1.2em; /* Relativo ao H3/título */
+  opacity: 0.9;
+}
+/* .kpi-title .dash-icon-title, .kpi-chart-card h3 .dash-icon-title { <<<< Seletor anterior, pode ser simplificado para o de cima } */
+
+
+.kpi-values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1.5rem;
+}
+
+.kpi-value-item {
+  background-color: rgba(13, 21, 38, 0.6); /* Fundo interno mais escuro */
+  padding: 1.2rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.kpi-value-item:hover {
+    border-color: rgba(var(--cor-acento-rgb), 0.5);
+    transform: translateY(-3px);
+}
+
+.kpi-value-item span:first-child { /* O valor numérico */
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--cor-fundo-contraste);
+  line-height: 1.1;
+  margin-bottom: 0.3rem;
+}
+.kpi-value-item label { /* O rótulo */
+  font-size: 0.8rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.kpi-value-item.placeholder span:first-child {
+  color: #64748b;
+}
+.kpi-chart-container {
+    width: 100%; /* Garante que o container do gráfico se estique */
+    min-height: 70px; /* Altura mínima para o gráfico de barra (era 80px) */
+    margin-top: 0.5rem;
+}
+
+
+/* Grid para colunas de Novas Ocorrências, Processos e Agenda */
+/* A classe .dashboard-triple-grid é adicionada no Dashboard.js */
+.dashboard-columns-grid.dashboard-triple-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsivo por padrão */
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+/* Se quiser forçar 3 colunas em telas maiores e depois quebrar: */
+@media (min-width: 1024px) { /* Ponto de quebra para 3 colunas */
+  .dashboard-columns-grid.dashboard-triple-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+/* Para layouts de 2 colunas (se você tiver um sem a classe .dashboard-triple-grid) */
+.dashboard-columns-grid:not(.dashboard-triple-grid) {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+
+.dashboard-column-item {
+  background: linear-gradient(145deg, rgba(30, 41, 59, 0.7), rgba(13, 21, 38, 0.7));
+  border: 1px solid rgba(var(--cor-primaria-rgb), 0.3);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  animation: fadeInFromBottom 0.5s ease-out forwards;
+  opacity: 0;
+  display: flex; /* Para controlar altura do conteúdo interno */
+  flex-direction: column;
+}
+/* Delay de animação para os cards das colunas */
+.dashboard-columns-grid > .dashboard-column-item:nth-child(1) { animation-delay: 0.3s; }
+.dashboard-columns-grid > .dashboard-column-item:nth-child(2) { animation-delay: 0.4s; }
+.dashboard-columns-grid.dashboard-triple-grid > .dashboard-column-item:nth-child(3) { animation-delay: 0.5s; }
+
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(var(--cor-acento-rgb), 0.2);
+}
+.column-header h2 {
+  font-size: 1.3rem;
+  color: var(--cor-fundo-contraste);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-family: var(--fonte-titulos);
+  font-weight: 500;
+}
+.view-all-link-styled {
+  color: var(--cor-acento);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.view-all-link-styled:hover {
+  color: #cea76b;
+  transform: translateX(2px);
+}
+.arrow-icon { margin-left: 0.3rem; } /* Classe para o ícone de seta */
+
+.info-list-styled {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Para ocupar espaço no card flexível */
+}
+.info-list-styled li {
+  padding: 0.7rem 0.3rem;
+  border-bottom: 1px solid rgba(var(--cor-primaria-rgb), 0.15);
+  transition: background-color 0.2s ease;
+  border-radius: 4px;
+}
+.info-list-styled li:last-child { border-bottom: none; }
+.info-list-styled li:hover { background-color: rgba(var(--cor-acento-rgb), 0.05); }
+
+.info-list-styled li a, 
+.info-list-styled li > span { /* Para itens de agenda que podem não ser links */
+  text-decoration: none;
+  color: #cbd5e1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+.info-list-styled .info-title {
+  font-weight: 500;
+  flex-grow: 1;
+  margin-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--cor-fundo-contraste); /* Cor do título do item da lista */
+}
+.info-list-styled li a:hover .info-title { color: var(--cor-acento); }
+
+.info-list-styled .info-subtext { /* Para nome do cliente e data na ocorrência */
+    font-size: 0.75em;
+    color: #94a3b8;
+    display: block;
+    line-height: 1.3;
+    margin-top: 0.2rem;
+}
+
+.info-list-styled .info-date { /* Para agenda */
+    font-weight: 500;
+    color: var(--cor-acento);
+    margin-right: 0.75rem;
+    font-size: 0.85rem;
+    min-width: 100px;
+}
+.info-list-styled .info-tag {
+  font-size: 0.7rem;
+  padding: 0.2em 0.6em;
+  border-radius: 10px;
+  white-space: nowrap;
+  color: white;
+}
+.info-list-styled .tag-tipo { /* Cor específica para tipo de tarefa na agenda */
+    background-color: var(--cor-secundaria);
+}
+/* Classes de status para processos (ex: .status-novo, .status-em-andamento) */
+/* Devem ser definidas globalmente ou copiadas de ProcessosListPage.css */
+
+
+/* Card Assistente IA no Dashboard */
+.assistente-ia-highlight {
+  background: linear-gradient(135deg, var(--cor-primaria) 0%, var(--cor-acento) 150%);
+  border: none;
+  color: white;
+  text-align: center;
+  padding: 2rem 2.5rem;
+  animation: fadeInFromBottom 0.5s ease-out 0.5s forwards;
+  opacity: 0;
+  border-radius: 12px; /* Adicionado para consistência */
+}
+.assistente-ia-highlight h2 {
+  color: white;
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+  display: flex; /* Para alinhar ícone e texto */
+  align-items: center;
+  justify-content: center;
+}
+.assistente-ia-highlight h2 .dash-icon-title {
+    color: white;
+    opacity: 1;
+}
+.assistente-ia-highlight p {
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 1.5rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.button-glow-primary {
+    background-color: var(--cor-fundo-contraste);
+    color: var(--cor-primaria);
+    padding: 0.8rem 2rem;
+    border: none;
+    border-radius: var(--raio-borda);
+    font-size: 1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 0 15px rgba(var(--cor-fundo-contraste-rgb, 255, 255, 255), 0.5),
+                0 0 25px rgba(var(--cor-fundo-contraste-rgb, 255, 255, 255), 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.button-glow-primary:hover {
+    box-shadow: 0 0 25px rgba(var(--cor-fundo-contraste-rgb, 255, 255, 255), 0.8),
+                0 0 35px rgba(var(--cor-fundo-contraste-rgb, 255, 255, 255), 0.6);
+    transform: translateY(-2px);
+    color: var(--cor-acento);
+}
+
+
+.loading-text {
+    padding: 1rem;
+    text-align: center;
+    font-style: italic;
+    color: #94a3b8;
+}
+
+/* Responsividade para os grids principais */
+@media (max-width: 1200px) {
+  .kpi-highlight-section {
+    grid-template-columns: 1fr;
+  }
+  .kpi-chart-card {
+    margin-top: 0;
+  }
+  .dashboard-columns-grid.dashboard-triple-grid { /* Seção de Ocorrências, Processos, Agenda */
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+  }
+}
+
+@media (max-width: 992px) {
+  /* Mantém o grid de 2 colunas para kpi-highlight-section se auto-fit não funcionar bem */
+  /* .kpi-highlight-section { grid-template-columns: 1fr 1fr; } */
+  .dashboard-columns-grid { /* Aplica-se a :not(.dashboard-triple-grid) também */
+    grid-template-columns: 1fr; /* Uma coluna para Processos/Agenda e para Ocorrências/Processos/Agenda */
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-futuristic-container { padding: 1.5rem 1rem; }
+  .dashboard-main-header h1 { font-size: 2rem; }
+  .dashboard-main-header p { font-size: 1rem; }
+  .kpi-highlight-section, .dashboard-columns-grid, .assistente-ia-highlight {
+    padding: 1.2rem;
+  }
+  .kpi-values-grid { grid-template-columns: 1fr 1fr; }
+  .kpi-value-item span:first-child { font-size: 1.8rem; }
+  .kpi-value-item label { font-size: 0.75rem; }
+  .column-header h2, .assistente-ia-highlight h2 { font-size: 1.2rem; }
+}
+
+/* Garante que o último card em um grid de 2 colunas ocupe a largura total se for ímpar */
+/* Isso é para o dashboard-triple-grid quando ele vira 2 colunas */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .dashboard-columns-grid.dashboard-triple-grid > .dashboard-column-item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+    }
+}

@@ -1,0 +1,40 @@
+/* Adicionar/Modificar no CSS da Lista (ex: ProcessosListPage.css) */
+
+/* Estilo para links de vínculo na tabela */
+.link-vinculo {
+    display: block; /* Para ficarem um abaixo do outro se ambos existirem */
+    font-size: 0.85rem;
+    color: var(--cor-texto-secundario);
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Evita que nomes longos quebrem o layout */
+    max-width: 150px; /* Ajuste conforme necessário */
+}
+.link-vinculo:hover {
+    color: var(--cor-acento);
+    text-decoration: underline;
+}
+
+/* Estilo para botão de ação de perigo (excluir) */
+.action-link.danger {
+    color: var(--cor-erro);
+}
+.action-link.danger:hover {
+    background-color: var(--cor-erro);
+    color: white;
+}
+.action-link:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.action-link:disabled:hover { /* Evita mudança de cor no hover quando desabilitado */
+    background-color: transparent;
+    color: var(--cor-erro); /* Mantém a cor original */
+}
+
+/* Opcional: Ajustes na tabela da agenda */
+.agenda-table td, .agenda-table th {
+    /* Talvez um padding menor se tiver muitos itens */
+    /* padding: 0.8rem 1rem; */
+}

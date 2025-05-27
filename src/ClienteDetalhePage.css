@@ -1,0 +1,130 @@
+.cliente-detalhe-page { 
+    padding: 1.5rem;
+  }
+  
+  .cliente-detalhe-page .page-header { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap; 
+    gap: 1rem; 
+  }
+  
+  .cliente-detalhe-page .page-title {
+    font-family: var(--fonte-titulos);
+    color: var(--cor-primaria);
+    font-size: 1.8rem; 
+    border-bottom: 2px solid var(--cor-acento);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    margin-bottom: 0;
+    word-break: break-word; 
+  }
+  
+  /* Estilos de Botões (Idealmente em CSS global/compartilhado) */
+  .button-secondary-alt {
+    background-color: var(--cor-fundo); color: var(--cor-secundaria); border: 1px solid var(--cor-borda);
+    padding: 0.6rem 1.2rem; border-radius: var(--raio-borda); font-size: 0.9rem; font-weight: 600;
+    display: inline-flex; align-items: center; text-decoration: none; 
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; white-space: nowrap;
+  }
+  .button-secondary-alt:hover { background-color: var(--cor-texto-secundario); color: var(--cor-fundo-contraste); border-color: var(--cor-texto-secundario); }
+  
+  .button-primary-alt { 
+    background-color: var(--cor-acento); color: white; padding: 0.75rem 1.25rem; border: none;
+    border-radius: var(--raio-borda); font-size: 0.95rem; font-weight: 600; display: inline-flex;
+    align-items: center; text-decoration: none; transition: background-color 0.3s ease, transform 0.2s ease; white-space: nowrap;
+  }
+  .button-primary-alt:hover { background-color: #967443; transform: translateY(-2px); }
+  /* Fim Estilos de Botões */
+  
+  
+  .detalhe-card {
+    background-color: var(--cor-fundo-contraste);
+    border-radius: var(--raio-borda);
+    box-shadow: var(--sombra-padrao);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .detalhe-card h3 {
+    font-family: var(--fonte-titulos); color: var(--cor-secundaria); font-size: 1.3rem;
+    margin-bottom: 1rem; border-bottom: 1px solid var(--cor-borda); padding-bottom: 0.5rem;
+  }
+  
+  .detalhe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 1rem 1.5rem; 
+  }
+  
+  .detalhe-item {
+    font-size: 0.95rem; color: var(--cor-texto-principal); padding-bottom: 0.5rem;
+    word-wrap: break-word; 
+  }
+  
+  .detalhe-item.full-width {
+      grid-column: 1 / -1;
+  }
+  
+  .detalhe-item strong {
+    color: var(--cor-primaria); display: block; margin-bottom: 0.25rem;
+    font-size: 0.85rem; font-weight: 600;
+  }
+  
+  .system-info-card {
+      background-color: var(--cor-fundo); 
+      box-shadow: none;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      border-top: 1px dashed var(--cor-borda);
+      margin-top: 1rem;
+  }
+  .system-info-card .detalhe-item {
+      font-size: 0.85rem;
+      color: var(--cor-texto-secundario);
+      padding-bottom: 0;
+  }
+  .system-info-card .detalhe-item strong {
+      font-size: 0.8rem;
+      color: var(--cor-secundaria);
+  }
+  
+  
+  .not-found-message, .loading-message, .error-message { 
+    text-align: center; padding: 2rem; font-size: 1.1rem; color: var(--cor-texto-secundario);
+  }
+  .error-message {
+    color: var(--cor-erro); background-color: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.2); border-radius: var(--raio-borda);
+  }
+
+  /* Adicionar ao CSS (ex: ClienteDetalhePage.css ou App.css) */
+.button-danger-alt {
+  background-color: var(--cor-erro); /* Vermelho de erro */
+  color: white;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: var(--raio-borda);
+  font-size: 0.95rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease, opacity 0.3s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.button-danger-alt:hover {
+  background-color: #a61a27; /* Vermelho mais escuro */
+  transform: translateY(-2px);
+}
+.button-danger-alt:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+.button-danger-alt svg, 
+.button-danger-alt .icon-placeholder {
+    margin-right: 0.5em;
+}

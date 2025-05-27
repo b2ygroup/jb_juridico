@@ -1,0 +1,304 @@
+/* src/AuthForms.css - Redesign Tecnológico (CORRIGIDO PARA USAR CLASSES -refeito) */
+
+/* Herda variáveis de :root em index.css */
+
+@keyframes authFormEnter {
+  from { opacity: 0; transform: perspective(1000px) rotateY(-15deg) translateX(30px); }
+  to { opacity: 1; transform: perspective(1000px) rotateY(0deg) translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Usando as classes -refeito que estão no App.js */
+.auth-page-container-refeito {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 3rem 20px;
+  box-sizing: border-box;
+  background-color: #050a1f;
+  background-image:
+    linear-gradient(rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.05) 1px, transparent 1px);
+  background-size: 35px 35px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.auth-page-container-refeito::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, rgba(13, 42, 88, 0.1) 0%, rgba(5, 10, 31, 0.7) 70%, #050a1f 100%);
+  z-index: 0;
+}
+
+.auth-wrapper-refeito {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px; /* Mantido 480px */
+  width: 100%;
+  margin-top: 0;
+  margin-bottom: 3rem;
+  animation: fadeIn 0.7s ease-out 0.2s forwards; /* Usando o keyframe fadeIn definido acima */
+  opacity: 0;
+}
+
+/* O .auth-branding-top e seus filhos são aninhados DENTRO do .auth-wrapper-refeito no App.js */
+.auth-wrapper-refeito .auth-branding-top {
+  text-align: center;
+  margin-bottom: 2rem; /* Ajustado de 2.5rem para consistência */
+  color: var(--cor-fundo-contraste);
+}
+
+.auth-wrapper-refeito .auth-logo-text-top {
+  font-family: 'Arial Black', Gadget, sans-serif;
+  font-size: 3.5rem; /* Ajustado de 4rem */
+  font-weight: 700;
+  color: var(--cor-acento);
+  margin-bottom: 0.25rem;
+  line-height: 1;
+  text-shadow: 0 0 10px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.6);
+}
+
+.auth-wrapper-refeito .auth-branding-top h2 {
+  font-size: 1rem; /* Ajustado de 1.1rem */
+  color: rgba(255, 255, 255, 0.8);
+  font-family: var(--fonte-corpo);
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin-bottom: 0;
+}
+
+/* Área do Card dos Formulários - USANDO A NOVA CLASSE */
+.auth-forms-area-refeito {
+  width: 100%;
+  background-color: rgba(10, 25, 47, 0.75); /* Seu valor de 0.6, mas 0.75 pode ser melhor */
+  backdrop-filter: blur(8px); /* Seu valor de 10px, mas 8px pode ser mais sutil */
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--raio-borda);
+  border: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.5); /* Seu valor de 0.3, 0.5 pode ser melhor */
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25); /* Seu valor de 0 0 30px e outro */
+  padding: 2.5rem;
+  /* Altura automática e sem overflow para não cortar */
+  /* display:flex e flex-direction:column removidos daqui, pois os filhos diretos (Login, SignUp, etc.) */
+  /* terão a classe .auth-form-content que controlará seu próprio layout interno. */
+  /* A animação de fade será aplicada aos filhos. */
+}
+
+/* Estilos para os componentes de formulário (Login, SignUp, ForgotPassword) */
+/* CADA um desses componentes DEVE ter uma classe raiz .auth-form-content em seu div principal */
+.auth-form-content {
+  width: 100%;
+  animation: fadeInSimple 0.4s ease-out; /* Reutilizando o keyframe fadeInSimple */
+  box-sizing: border-box;
+}
+
+@keyframes fadeInSimple { /* Definido para o .auth-form-content */
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+/* Estilos para a ETAPA DE SELEÇÃO DE PERFIL (que está dentro de SignUp.js) */
+/* SignUp.js na etapa 1 deve ter <div className="auth-form-content etapa-selecao-papel"> */
+.auth-form-content.etapa-selecao-papel {
+    text-align: center;
+}
+.auth-form-content.etapa-selecao-papel h2 { /* Ajustado para ser filho de .auth-form-content */
+  margin-bottom: 0.75rem;
+  font-size: 1.6rem;
+  color: var(--cor-fundo-contraste);
+  font-weight: 600;
+}
+.auth-form-content.etapa-selecao-papel .auth-form-subtitle {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+.papeis-container { display: flex; flex-direction: column; gap: 1.5rem; margin: 2rem 0; }
+.papel-card { background-color: rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.15); border: 2px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.4); padding: 1.5rem; border-radius: var(--raio-borda); text-align: center; cursor: pointer; transition: all 0.3s ease; color: var(--cor-fundo-contraste); }
+.papel-card:hover { border-color: var(--cor-acento); background-color: rgba(var(--cor-acento-rgb, 176, 141, 87), 0.15); transform: translateY(-5px); box-shadow: 0 8px 20px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.2); }
+.papel-card .role-icon { font-size: 3rem; display: block; margin-bottom: 1rem; color: var(--cor-acento); }
+.papel-card h3 { font-family: var(--fonte-titulos); color: var(--cor-fundo-contraste); font-size: 1.3rem; margin-top: 0; margin-bottom: 0.5rem; }
+.papel-card p { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); line-height: 1.5; margin: 0; }
+
+/* Links de troca de modo DENTRO de .auth-form-content */
+.auth-form-content .auth-switch-link {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8); /* Era 0.6, aumentado para visibilidade */
+}
+
+/* Estilos para os formulários de dados (Login, SignUp Etapa 2, ForgotPassword) */
+.auth-form-content > h2, /* Título direto do componente de formulário */
+.auth-form-content > .link-voltar + h2 { /* Título após o botão voltar */
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  color: var(--cor-fundo-contraste);
+  font-weight: 600;
+}
+.auth-form-content > .auth-form-subtitle { /* Subtítulo direto do componente */
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-bottom: 1.8rem;
+}
+
+.auth-form-content .form-group { margin-bottom: 1.25rem; display:flex; flex-direction:column; }
+.auth-form-content .form-group label { display: block; margin-bottom: 0.6rem; font-weight: 500; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.auth-form-content .form-group input[type="email"],
+.auth-form-content .form-group input[type="password"],
+.auth-form-content .form-group input[type="text"],
+.auth-form-content .form-group select,
+.auth-form-content .form-group textarea,
+.auth-form-content .form-group .imask-input {
+  width: 100%; padding: 0.8rem 1rem; border: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.5);
+  border-radius: 6px; font-size: 0.95rem; font-family: var(--fonte-corpo);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  background-color: rgba(13, 21, 38, 0.7); color: var(--cor-fundo-contraste); min-height: 44px; box-sizing: border-box;
+}
+.auth-form-content .form-group input::placeholder,
+.auth-form-content .form-group textarea::placeholder,
+.auth-form-content .form-group .imask-input::placeholder { color: rgba(203, 213, 225, 0.5); font-style: italic; }
+
+.auth-form-content .form-group input:focus,
+.auth-form-content .form-group select:focus,
+.auth-form-content .form-group textarea:focus,
+.auth-form-content .form-group .imask-input:focus {
+  outline: none; border-color: var(--cor-acento); background-color: rgba(30, 41, 59, 0.8);
+  box-shadow: 0 0 0 3px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3), 0 0 10px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.15);
+}
+.auth-form-content .form-group select {
+    padding-top: 0; padding-bottom: 0; appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23B08D57%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.6-3.6%205.4-7.9%205.4-12.9%200-5-1.8-9.2-5.4-12.8z%22/%3E%3C/svg%3E');
+    background-repeat: no-repeat; background-position: right .9rem center; background-size: .65em auto; padding-right: 2.5rem;
+}
+.auth-form-content .form-group select option { background-color: #1e293b; color: var(--cor-fundo-contraste); }
+.auth-form-content .form-group textarea { min-height: 100px; resize: vertical; }
+
+.auth-form-content .form-options { text-align: right; margin-bottom: 1.25rem; }
+.auth-form-content .button-primary {
+  background: linear-gradient(135deg, var(--cor-acento) 0%, #c8a053 100%);
+  color: #1a1a2e; padding: 0.9rem 1.5rem; border: none;
+  border-radius: calc(var(--raio-borda) / 1.5); font-size: 1rem; font-weight: 600;
+  width: 100%; text-transform: uppercase; letter-spacing: 0.8px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.2);
+  margin-top: 1rem; /* Aumentado margin-top */
+  cursor: pointer;
+}
+.auth-form-content .button-primary:hover {
+  background: linear-gradient(135deg, #c8a053 0%, var(--cor-acento) 100%);
+  box-shadow: 0 6px 20px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3);
+  transform: translateY(-2px);
+}
+.auth-form-content .button-primary:active { transform: translateY(0); box-shadow: 0 2px 10px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.2); }
+.auth-form-content .button-primary:disabled { background: #5a5a5a; color: #999; cursor: not-allowed; box-shadow: none; transform: none; }
+
+.auth-form-content .auth-message { margin-top: 1.25rem; font-size: 0.9rem; text-align: center; padding: 0.75rem; border-radius: calc(var(--raio-borda) / 2); }
+.auth-form-content .auth-message.success { color: #e6ffed; background-color: rgba(34, 139, 34, 0.3); border: 1px solid rgba(34, 139, 34, 0.5); }
+.auth-form-content .auth-message.error { color: #f8d7da; background-color: rgba(169, 68, 66, 0.3); border: 1px solid rgba(169, 68, 66, 0.5); }
+
+.auth-form-content .link-button { background: none; border: none; color: var(--cor-acento); cursor: pointer; padding: 0; font-size: inherit; font-weight: 600; text-decoration: none; transition: color 0.2s ease; }
+.auth-form-content .link-button:hover { color: #fff; text-decoration: underline; }
+.auth-form-content .link-button.small-text { font-size: 0.85rem; }
+.auth-form-content .link-voltar { display: inline-block; margin-bottom: 1.5rem; font-size: 0.9rem; }
+
+.auth-form-content .input-with-validation,
+.auth-form-content .input-with-feedback { position: relative; display: flex; align-items: center; }
+.auth-form-content .input-with-validation input,
+.auth-form-content .input-with-validation .imask-input,
+.auth-form-content .input-with-feedback input,
+.auth-form-content .input-with-feedback .imask-input { padding-right: 2.8rem !important; flex-grow: 1; }
+.auth-form-content .validation-icon,
+.auth-form-content .loading-cep-spinner { position: absolute; right: 0.85rem; top: 50%; transform: translateY(-50%); }
+.auth-form-content .validation-icon { font-size: 1.1rem; }
+.auth-form-content .validation-icon.valid { color: #34d399; }
+.auth-form-content .validation-icon.invalid { color: #f87171; }
+
+.auth-form-content .input-with-validation.valid input, 
+.auth-form-content .input-with-validation.valid .imask-input,
+.auth-form-content .input-with-feedback.valid input,
+.auth-form-content .input-with-feedback.valid .imask-input { border-color: #34d399; }
+
+.auth-form-content .input-with-validation.invalid input, 
+.auth-form-content .input-with-validation.invalid .imask-input,
+.auth-form-content .input-with-feedback.invalid input,
+.auth-form-content .input-with-feedback.invalid .imask-input { border-color: #f87171; }
+
+.auth-form-content .loading-cep-spinner { 
+    display: inline-block; width: 18px; height: 18px; 
+    border: 2px solid rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3);
+    border-radius: 50%; border-top-color: var(--cor-acento);
+    animation: spin 0.8s linear infinite; 
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.auth-form-content .form-section-title { 
+    font-size: 1.1rem; color: var(--cor-acento); margin-top: 1.8rem; 
+    margin-bottom: 1rem; padding-bottom: 0.4rem; 
+    border-bottom: 1px solid rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3);
+    font-family: var(--fonte-corpo); font-weight: 600;
+}
+.auth-form-content .form-section-title.full-width { grid-column: 1 / -1; }
+
+@media (min-width: 768px) {
+  .papeis-container { flex-direction: row; }
+  .papel-card { flex: 1; }
+  /* Aplicando ao form-grid DENTRO do .auth-form-content */
+  .auth-forms-area-refeito .auth-form-content form .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  
+  }
+  .auth-forms-area-refeito .auth-form-content form .form-group.full-width,
+  .auth-forms-area-refeito .auth-form-content form .form-section-title.full-width { grid-column: 1 / -1; }
+}
+
+@media (max-width: 500px) {
+    .auth-wrapper-refeito { margin-top: 1rem; margin-bottom: 1rem; }
+    .auth-forms-area-refeito { padding: 1.5rem; }
+    .auth-forms-area-refeito .auth-form-content form .form-grid {
+        grid-template-columns: 1fr; 
+    }
+     .auth-forms-area-refeito .auth-form-content form .form-group.full-width,
+     .auth-forms-area-refeito .auth-form-content form .form-section-title.full-width { 
+        grid-column: auto;
+     }
+}
+
+@media (max-width: 767px) {
+  .auth-forms-area .auth-form.active form .form-grid {
+    display: block;
+  }
+  .auth-forms-area .auth-form.active form .form-group.full-width,
+  .auth-forms-area .auth-form.active form .form-section-title.full-width {
+    grid-column: auto;
+    width: 100%;
+  }
+}
+/* Correção para garantir que full-width ocupe 100% mesmo em qualquer grid */
+.auth-form-content .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.auth-form-content .form-group.full-width {
+  grid-column: 1 / -1 !important;
+  width: 100%;
+}
+
+/* Linha em branco no final */
+

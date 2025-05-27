@@ -1,0 +1,139 @@
+/* src/NovaOcorrenciaPage.css */
+
+/* Herda variáveis de :root (--cor-acento, --cor-fundo-contraste, etc.) 
+   e estilos base de formulário de NovoProcessoPage.css se NovaOcorrenciaPage.js 
+   ainda importar NovoProcessoPage.css e usar suas classes como .processo-form-card.
+   Este CSS foca em garantir o tema escuro e o contraste para elementos específicos desta página. */
+
+/* Container da página (se NovaOcorrenciaPage.js usa .novo-processo-page como classe raiz) */
+.novo-processo-page.ocorrencia-form-page {
+  /* O fundo principal é definido pelo PortalClienteLayout, 
+     mas podemos garantir uma cor de texto padrão clara aqui se necessário. */
+  color: var(--cor-texto-claro-principal, #cbd5e1); /* Cinza azulado claro como texto padrão */
+}
+
+.ocorrencia-form-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3); /* Borda dourada sutil */
+  /* Sem background-color aqui, para herdar o fundo escuro da página/layout */
+}
+
+.ocorrencia-form-page .page-title {
+  font-family: var(--fonte-titulos);
+  color: var(--cor-fundo-contraste, #57571a); /* Título BRANCO ou muito claro */
+  font-size: 1.8rem;
+  margin: 0; /* Remove margens padrão do h2 se necessário */
+}
+
+
+.ocorrencia-form-page .processo-form-card {
+  background-color: rgba(30, 41, 59, 0.7); /* Ex: Azul ardósia escuro translúcido */
+  border: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.4);
+  border-radius: var(--raio-borda, 8px);
+  padding: 2rem 2.5rem;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+
+/* Garante que labels e textos dentro do form sejam claros */
+.ocorrencia-form-page .form-group label {
+  color: #a0aec0; /* Cinza azulado claro para labels */
+  /* Herda outros estilos de .form-group label de NovoProcessoPage.css */
+}
+
+.ocorrencia-form-page .form-group input[type="text"],
+.ocorrencia-form-page .form-group select,
+.ocorrencia-form-page .form-group textarea,
+.ocorrencia-form-page .form-group input[type="file"] /* Estilo para input de arquivo */ {
+  background-color: rgba(13, 21, 38, 0.7); 
+  color: var(--cor-fundo-contraste); 
+  border: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.5);
+  /* Herda padding, border-radius, font-size, min-height, etc., de NovoProcessoPage.css */
+}
+
+/* Estilo específico para o texto do input[type="file"] no tema escuro */
+.ocorrencia-form-page .form-group input[type="file"]::file-selector-button {
+  background-color: var(--cor-acento);
+  color: var(--cor-primaria); /* Ou uma cor escura que contraste com dourado */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--raio-borda);
+  cursor: pointer;
+  margin-right: 1rem;
+  font-family: var(--fonte-corpo);
+  font-weight: 500;
+}
+.ocorrencia-form-page .form-group input[type="file"]:hover::file-selector-button {
+  background-color: #c8a053; /* Dourado mais claro */
+}
+
+
+.ocorrencia-form-page .form-group input::placeholder,
+.ocorrencia-form-page .form-group textarea::placeholder {
+  color: rgba(203, 213, 225, 0.5);
+}
+
+.ocorrencia-form-page .form-group input:focus,
+.ocorrencia-form-page .form-group select:focus,
+.ocorrencia-form-page .form-group textarea:focus,
+.ocorrencia-form-page .form-group input[type="file"]:focus {
+  border-color: var(--cor-acento); 
+  background-color: rgba(30, 41, 59, 0.8); 
+  box-shadow: 0 0 0 2px rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3);
+  /* Herda outros estilos de foco de NovoProcessoPage.css */
+}
+
+/* Estilos para os botões "Voltar ao Portal" e "Cancelar" */
+.ocorrencia-form-page .button-secondary-alt {
+  background-color: transparent;
+  color: var(--cor-acento) !important; /* Garante a cor do texto */
+  border: 1px solid var(--cor-acento) !important; /* Garante a borda */
+  padding: 0.6rem 1.2rem;
+}
+.ocorrencia-form-page .button-secondary-alt:hover {
+  background-color: rgba(var(--cor-acento-rgb, 176, 141, 87), 0.1) !important;
+  color: #cea76b !important; /* Dourado mais claro */
+}
+.ocorrencia-form-page .button-secondary-alt .back-arrow-icon-placeholder, /* Se usar span para ícone */
+.ocorrencia-form-page .button-secondary-alt span[style*="margin-right"] { /* Para o BackArrowIcon atual */
+    color: var(--cor-acento); /* Garante que o ícone também pegue a cor */
+}
+.ocorrencia-form-page .button-secondary-alt:hover span[style*="margin-right"] {
+    color: #cea76b;
+}
+
+
+/* O botão "Enviar Ocorrência" (.button-primary-alt) deve vir do App.css global.
+   Certifique-se que ele tem bom contraste. Se não, ajuste no App.css ou adicione aqui: */
+.ocorrencia-form-page .button-primary-alt {
+  background-color: var(--cor-acento);
+  color: var(--cor-primaria); /* Ex: Azul escuro para contraste com dourado */
+  /* padding, border-radius, etc. já devem estar no App.css */
+}
+.ocorrencia-form-page .button-primary-alt:hover {
+  background-color: #c8a053; /* Dourado mais claro */
+}
+.ocorrencia-form-page .button-primary-alt .send-icon-placeholder, /* Se usar span para ícone */
+.ocorrencia-form-page .button-primary-alt span[style*="margin-left"] { /* Para o SendIcon atual */
+    color: var(--cor-primaria); /* Cor do ícone igual ao texto do botão */
+}
+.ocorrencia-form-page .button-primary-alt:hover span[style*="margin-left"] {
+    color: var(--cor-primaria);
+}
+
+
+.ocorrencia-form-page .info-text {
+    color: var(--cor-texto-claro-secundario, #94a3b8);
+    font-size: 0.85rem; /* Ajuste se necessário */
+}
+
+/* Layout de uma coluna para o formulário de ocorrência */
+/* Esta classe deve estar no form-grid dentro de NovaOcorrenciaPage.js */
+.ocorrencia-form-page .form-grid-single-column .form-group {
+    grid-column: 1 / -1; 
+}

@@ -1,0 +1,345 @@
+/* src/OcorrenciaDetalhePageAdv.css */
+
+/* Garanta que as variáveis de cor (--cor-fundo-contraste, --cor-acento, 
+   --cor-texto-claro-principal, --cor-primaria-rgb, --cor-acento-rgb, 
+   --cor-sucesso, --cor-erro, --cor-erro-rgb, --raio-borda, --fonte-titulos, 
+   --fonte-corpo) estão definidas globalmente no seu index.css ou App.css */
+
+.ocorrencia-detalhe-adv-page {
+  padding: 1.5rem 2.5rem;
+  color: var(--cor-texto-claro-principal, #cbd5e1);
+  animation: fadeIn 0.5s ease-out; /* Certifique-se que @keyframes fadeIn está definido globalmente ou aqui */
+}
+
+@keyframes fadeIn { /* Adicione se não estiver global */
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.ocorrencia-detalhe-adv-page .page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3);
+}
+
+.ocorrencia-detalhe-adv-page .page-title {
+  font-family: var(--fonte-titulos);
+  color: var(--cor-fundo-contraste, #FFFFFF);
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.ocorrencia-detalhe-adv-page .button-secondary-alt {
+  background-color: transparent;
+  color: var(--cor-acento) !important;
+  border: 1px solid var(--cor-acento) !important;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--raio-borda);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.ocorrencia-detalhe-adv-page .button-secondary-alt:hover {
+  background-color: rgba(var(--cor-acento-rgb, 176, 141, 87), 0.1) !important;
+  color: #cea76b !important;
+}
+.ocorrencia-detalhe-adv-page .button-secondary-alt span[style*="margin-right"] { /* Ícone de voltar */
+    color: var(--cor-acento) !important;
+}
+.ocorrencia-detalhe-adv-page .button-secondary-alt:hover span[style*="margin-right"] {
+    color: #cea76b !important;
+}
+
+
+.ocorrencia-detalhe-card {
+  background-color: rgba(30, 41, 59, 0.75);
+  border: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.4);
+  border-radius: var(--raio-borda, 8px);
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  color: var(--cor-texto-claro-principal, #cbd5e1);
+}
+
+.ocorrencia-detalhe-card .detalhe-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  gap: 1rem; /* Espaço entre título e status badge */
+}
+
+.ocorrencia-detalhe-card .detalhe-header h3 {
+  font-family: var(--fonte-titulos);
+  color: var(--cor-acento);
+  font-size: 1.6rem;
+  margin: 0 0 0.25rem 0;
+  line-height: 1.3;
+  flex-grow: 1; /* Para o título ocupar espaço e empurrar o badge */
+}
+
+.ocorrencia-detalhe-card .status-badge {
+  padding: 0.3em 0.8em;
+  border-radius: var(--raio-borda, 4px); /* Raio menor para badges */
+  font-size: 0.75rem; /* Ligeiramente menor */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  color: white; 
+  flex-shrink: 0; /* Para não encolher */
+}
+/* Cores de status */
+.status-badge.status-enviada { background-color: var(--cor-primaria, #0D47A1); }
+.status-badge.status-em-análise, /* Assegura que o seletor com acento funcione */
+.status-badge.status-em-analise { 
+  background-color: var(--cor-acento, #B08D57); 
+  color: #1a1a2e; /* Texto escuro para contraste com dourado */
+}
+.status-badge.status-contato-realizado { background-color: #00C49F; color: white; }
+.status-badge.status-convertida-em-processo { background-color: var(--cor-sucesso, #28a745); color: white; }
+.status-badge.status-recusada,
+.status-badge.status-cancelada-pelo-cliente { background-color: var(--cor-erro, #DC3545); color: white; }
+.status-badge.status-desconhecido { background-color: #6c757d; color: white; }
+
+
+.ocorrencia-detalhe-card .info-text-subtle {
+  font-size: 0.85rem;
+  color: #a0aec0;
+  margin-bottom: 1.8rem;
+  display: block;
+}
+
+.ocorrencia-detalhe-card .detalhe-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+@media (min-width: 768px) {
+  .ocorrencia-detalhe-card .detalhe-grid.two-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.ocorrencia-detalhe-card .detalhe-item {
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.15);
+  color: var(--cor-texto-claro-principal, #e2e8f0);
+}
+.ocorrencia-detalhe-card .detalhe-item:last-child {
+  border-bottom: none;
+}
+.ocorrencia-detalhe-card .detalhe-item strong {
+  color: #a0aec0;
+  margin-right: 0.5em;
+  display: block;
+  margin-bottom: 0.2em;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.ocorrencia-detalhe-card .detalhe-item span.info-tag {
+    font-size: 0.8em;
+    /* Reutiliza .info-tag de Dashboard.css ou App.css se definido globalmente */
+}
+
+.ocorrencia-detalhe-card h4 {
+  font-family: var(--fonte-titulos);
+  color: var(--cor-acento);
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3);
+  display: flex;
+  align-items: center;
+}
+.ocorrencia-detalhe-card h4 span[style*="margin-right"] { /* Para os ícones dentro de H4 */
+    color: var(--cor-acento);
+}
+
+
+.ocorrencia-detalhe-card .descricao-ocorrencia {
+  background-color: rgba(13, 21, 38, 0.7);
+  padding: 1rem 1.2rem;
+  border-radius: var(--raio-borda, 6px); /* Consistência com inputs */
+  white-space: pre-wrap;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  color: var(--cor-texto-claro-principal, #e2e8f0);
+  font-size: 0.9rem;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.lista-arquivos-anexados {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0.5rem;
+}
+.lista-arquivos-anexados li {
+  margin-bottom: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  background-color: rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.15);
+  border-radius: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem; /* Ajuste para consistência */
+}
+.link-arquivo {
+  color: var(--cor-acento);
+  text-decoration: none;
+  font-weight: 500;
+  word-break: break-all;
+}
+.link-arquivo:hover {
+  text-decoration: underline;
+  color: #cea76b;
+}
+.tamanho-arquivo {
+  font-size: 0.8em;
+  color: #94a3b8;
+  margin-left: 0.75rem;
+  white-space: nowrap;
+}
+
+.detalhe-actions {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(var(--cor-acento-rgb, 176, 141, 87), 0.3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: flex-start;
+}
+
+/* Botões de ação (reutilizam .button-primary-alt, .button-danger, .button-success do App.css) */
+/* Certifique-se que essas classes estão bem definidas no App.css para o tema escuro */
+.detalhe-actions .button-primary-alt,
+.detalhe-actions .button-danger,
+.detalhe-actions .button-success {
+    padding: 0.7rem 1.2rem; /* Padding padrão para botões de ação */
+    font-size: 0.9rem;
+}
+.detalhe-actions .button-primary-alt span[style*="margin-right"], /* Ícones nos botões */
+.detalhe-actions .button-danger span[style*="margin-right"],
+.detalhe-actions .button-success span[style*="margin-right"] {
+    /* A cor do ícone deve ser definida pelo próprio botão ou herdada */
+}
+
+/* Histórico de Atualizações */
+.historico-card {
+  margin-top: 2rem;
+}
+
+.lista-historico-status {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 1rem;
+}
+
+.lista-historico-status li {
+  background-color: rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.1);
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.75rem;
+  border-radius: 4px;
+  border-left: 4px solid var(--cor-acento);
+  font-size: 0.9rem;
+}
+
+.historico-data {
+  font-size: 0.8em;
+  color: #a0aec0;
+  margin-bottom: 0.3rem;
+}
+
+.historico-info {
+  color: var(--cor-texto-claro-principal, #e2e8f0);
+}
+.historico-info strong {
+  color: var(--cor-fundo-contraste, #FFFFFF); /* Ou var(--cor-acento) para destaque */
+}
+
+.status-anterior {
+  font-size: 0.9em;
+  color: #a0aec0;
+  margin-left: 0.5em;
+}
+
+.historico-notas {
+  font-size: 0.9em;
+  color: var(--cor-texto-claro-principal, #e2e8f0);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.2);
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+.historico-anexos {
+  margin-top: 0.5rem;
+  font-size: 0.85em;
+}
+.historico-anexos strong {
+  color: var(--cor-texto-claro-secundario, #a0aec0);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.historico-anexos ul {
+  list-style: disc; /* Para diferenciar dos itens principais do histórico */
+  padding-left: 1.5rem; 
+  margin-top: 0.3rem;
+}
+.historico-anexos ul li {
+    background-color: transparent; /* Remove fundo do item de anexo */
+    padding: 0.2rem 0;
+    margin-bottom: 0.2rem;
+    border-left: none;
+    border-bottom: none; /* Remove bordas se não desejar */
+}
+.historico-anexos ul li a {
+  color: var(--cor-acento); 
+}
+
+.loading-text-portal { /* Se usado para histórico */
+  padding: 1rem;
+  text-align: center;
+  font-style: italic;
+  color: var(--cor-texto-claro-secundario, #94a3b8);
+}
+
+/* Para o form-feedback de erro/sucesso no topo da página */
+.ocorrencia-detalhe-adv-page .form-feedback.error,
+.ocorrencia-detalhe-adv-page .form-feedback.success {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    border-radius: var(--raio-borda);
+}
+.ocorrencia-detalhe-adv-page .form-feedback.error {
+    background-color: rgba(var(--cor-erro-rgb, 220, 53, 69), 0.2);
+    color: var(--cor-erro, #dc3545);
+    border: 1px solid rgba(var(--cor-erro-rgb, 220, 53, 69), 0.4);
+}
+.ocorrencia-detalhe-adv-page .form-feedback.success {
+    background-color: rgba(var(--cor-sucesso-rgb, 40, 167, 69), 0.2);
+    color: var(--cor-sucesso, #28a745);
+    border: 1px solid rgba(var(--cor-sucesso-rgb, 40, 167, 69), 0.4);
+}
+
+/* Adicione aqui as variáveis --cor-erro-rgb e --cor-sucesso-rgb no seu :root se não existirem */
+/* :root { 
+    --cor-erro-rgb: 220, 53, 69;
+    --cor-sucesso-rgb: 40, 167, 69;
+   } 
+*/

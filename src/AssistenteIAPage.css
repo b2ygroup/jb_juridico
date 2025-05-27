@@ -1,0 +1,77 @@
+/* src/AssistenteIAPage.css */
+
+.assistente-ia-page .page-title {
+  font-size: 1.8rem; 
+}
+
+.assistente-ia-page .processo-form-card.assistente-chat-area { /* Especificidade para o card */
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.pergunta-form .form-group label {
+  font-size: 1rem; 
+  color: var(--cor-primaria);
+}
+
+.pergunta-form textarea {
+  min-height: 80px; 
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.pergunta-form .form-actions button {
+  font-size: 1rem;
+  padding: 0.8rem 1.5rem;
+}
+.pergunta-form .form-actions button svg, /* Para ícones SVG futuros */
+.pergunta-form .form-actions button span[style*="margin-left"] { /* Para o SendIcon atual */
+    margin-left: 0.6em;
+    font-size: 1em; /* Para o ícone herdar o tamanho */
+    line-height: 1; /* Para alinhar melhor o ícone de texto */
+}
+
+
+.resposta-ia-container {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cor-borda);
+}
+
+.resposta-ia-content {
+  background-color: var(--cor-fundo); 
+  border-left: 4px solid var(--cor-acento); 
+  padding: 1rem 1.5rem;
+  border-radius: var(--raio-borda);
+  font-size: 0.95rem;
+  color: var(--cor-texto-principal);
+  margin-top: 1rem; /* Espaço se houver mensagem de loading/erro acima */
+}
+
+.resposta-ia-content h4 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.05rem;
+  color: var(--cor-acento);
+  font-family: var(--fonte-corpo);
+  font-weight: 600;
+}
+
+.resposta-ia-content p {
+  margin-bottom: 0;
+  line-height: 1.7; 
+}
+
+.resposta-ia-container .loading-message.small-loading,
+.resposta-ia-container .form-feedback.error { 
+    padding: 0.5rem 0;
+    font-size: 0.95rem;
+    margin-top: 0;
+    text-align: center; 
+}
+.resposta-ia-container .form-feedback.error {
+    background-color: transparent;
+    border: none;
+    padding-left: 0;
+    color: var(--cor-erro);
+}

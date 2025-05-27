@@ -1,0 +1,83 @@
+/* src/Modal.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Sobrepor outros conteúdos */
+  padding: 1rem;
+}
+
+.modal-content {
+  background-color: var(--cor-fundo-escuro-secundario, #1e293b); /* Fundo escuro do card */
+  padding: 2rem;
+  border-radius: var(--raio-borda, 8px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 100%;
+  max-width: 500px; /* Largura máxima do modal */
+  color: var(--cor-texto-claro-principal, #cbd5e1);
+  border: 1px solid rgba(var(--cor-primaria-rgb), 0.4);
+}
+
+.modal-content h3 {
+  color: var(--cor-acento);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-family: var(--fonte-titulos);
+  font-size: 1.4rem;
+}
+
+/* Reutiliza estilos de form-group de AuthForms.css ou NovoProcessoPage.css */
+/* Se não, defina-os aqui: */
+.modal-content .form-group {
+  margin-bottom: 1rem;
+}
+.modal-content .form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #a0aec0; /* Cinza azulado claro */
+  font-size: 0.9rem;
+}
+.modal-content .form-group textarea,
+.modal-content .form-group input[type="file"] { /* Estilo para futuro input de arquivo */
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(var(--cor-primaria-rgb), 0.5);
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-family: var(--fonte-corpo);
+  background-color: rgba(13, 21, 38, 0.7);
+  color: var(--cor-fundo-contraste);
+  box-sizing: border-box;
+}
+.modal-content .form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+.modal-content .form-group textarea:focus {
+  outline: none;
+  border-color: var(--cor-acento);
+  box-shadow: 0 0 0 2px rgba(var(--cor-acento-rgb), 0.3);
+}
+
+
+.modal-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Os botões .button-primary-alt e .button-secondary-alt devem vir do App.css */
+/* Se precisar de ajustes específicos para o modal: */
+.modal-actions .button-secondary-alt {
+  /* Estilos do botão secundário */
+}
+.modal-actions .button-primary-alt {
+  /* Estilos do botão primário */
+}

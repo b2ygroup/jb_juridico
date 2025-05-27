@@ -1,0 +1,165 @@
+/* src/SplashScreen.css - VERSÃO FUTURISTA */
+
+/* Variáveis de cor (relembrando)
+  --cor-primaria: #0D47A1; (Azul Marinho Profundo)
+  --cor-acento: #B08D57; (Dourado Envelhecido)
+  --cor-fundo-contraste: #FFFFFF;
+*/
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes drawLine {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 5px var(--cor-acento), 0 0 10px var(--cor-acento), 0 0 15px var(--cor-acento); }
+  50% { box-shadow: 0 0 10px var(--cor-acento), 0 0 20px var(--cor-acento), 0 0 30px var(--cor-acento); }
+}
+
+@keyframes backgroundGridPulse {
+  0%, 100% { opacity: 0.05; }
+  50% { opacity: 0.1; }
+}
+
+.splash-screen-visionary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #050a1f; /* Azul noite muito escuro, quase preto */
+  color: var(--cor-fundo-contraste);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  overflow: hidden;
+  /* Duração total antes do fade out, ex: 6s de exibição + 0.5s de fade = 6.5s */
+  animation: fadeOutSplashScreen 0.5s ease-out 6s forwards;
+}
+
+/* Efeito de Grid de Fundo Sutil */
+.splash-grid-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--cor-primaria-rgb, 13, 71, 161), 0.1) 1px, transparent 1px);
+  background-size: 40px 40px; /* Tamanho do grid */
+  animation: backgroundGridPulse 5s ease-in-out infinite;
+  z-index: 0;
+}
+/* Defina --cor-primaria-rgb em :root no seu index.css ou App.css se quiser usar esta variável no CSS */
+/* Exemplo para :root em index.css: --cor-primaria-rgb: 13, 71, 161; */
+
+
+.splash-logo-container {
+  display: flex;
+  font-family: 'Arial Black', Gadget, sans-serif; /* Fonte bem forte e geométrica */
+  font-size: 8rem; /* Bem grande */
+  color: var(--cor-fundo-contraste);
+  margin-bottom: 1rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: scaleUp 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s forwards; /* Efeito de "salto" */
+}
+
+.splash-logo-char {
+  display: inline-block;
+  text-shadow: 
+    0 0 5px var(--cor-fundo-contraste),
+    0 0 10px var(--cor-fundo-contraste),
+    0 0 20px var(--cor-acento), /* Glow dourado */
+    0 0 30px var(--cor-acento),
+    0 0 40px var(--cor-acento),
+    0 0 55px var(--cor-acento);
+}
+
+.splash-logo-char.char-j {
+  opacity: 0;
+  animation: fadeIn 1s ease-out 1s forwards;
+}
+.splash-logo-char.char-b {
+  opacity: 0;
+  animation: fadeIn 1s ease-out 1.3s forwards;
+  margin-left: -0.15em; /* Ajuste de kerning */
+}
+
+.splash-text-container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  opacity: 0;
+  animation: slideInFromBottom 1.2s ease-out 1.8s forwards;
+}
+
+.splash-main-title {
+  font-family: var(--fonte-corpo); /* Ou uma fonte mais futurista/sans-serif limpa */
+  font-size: 2rem;
+  font-weight: 300; /* Leve */
+  color: var(--cor-fundo-contraste);
+  letter-spacing: 3px; /* Espaçado */
+  text-transform: uppercase;
+  margin: 0;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out 2.2s forwards;
+}
+
+.splash-sub-action {
+  font-family: var(--fonte-corpo);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--cor-acento); /* Dourado */
+  letter-spacing: 5px; /* Bem espaçado */
+  text-transform: uppercase;
+  margin: 0.5rem 0 0 0;
+  opacity: 0;
+  animation: fadeIn 1.5s ease-out 2.5s forwards;
+}
+
+.splash-loader-bar-container {
+  width: 200px;
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  margin-top: 3rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeIn 1s ease-out 3s forwards;
+}
+
+.splash-loader-bar {
+  width: 0%;
+  height: 100%;
+  background-color: var(--cor-acento);
+  border-radius: 2px;
+  animation: drawLine 2.5s ease-in-out 3.2s forwards; /* Começa após o container aparecer */
+}
+
+
+/* Animação de fade out da SplashScreen (já existia, mantida) */
+@keyframes fadeOutSplashScreen {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+}

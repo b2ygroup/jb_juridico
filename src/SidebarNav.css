@@ -1,0 +1,76 @@
+.sidebar-nav {
+    width: 240px; /* Largura do menu lateral */
+    background-color: var(--cor-secundaria); /* Cor de fundo escura */
+    padding-top: 1.5rem;
+    height: 100%; /* Ocupa toda a altura disponível (depende do layout pai) */
+    color: #e0e0e0; /* Cor do texto clara */
+    flex-shrink: 0; /* Impede que o menu encolha */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .sidebar-nav li {
+    margin-bottom: 0.25rem; /* Espaço entre itens */
+  }
+  
+  .sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    border-left: 4px solid transparent; /* Borda para indicar item ativo */
+  }
+  
+  .sidebar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  .sidebar-nav .nav-link.active {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    font-weight: 600;
+    border-left-color: var(--cor-acento); /* Usa cor de acento na borda ativa */
+  }
+  
+  .sidebar-nav .nav-icon {
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+    width: 20px; /* Alinha os ícones */
+    text-align: center;
+    opacity: 0.8;
+  }
+  
+  .sidebar-nav .nav-link.active .nav-icon {
+    opacity: 1;
+  }
+  
+  .sidebar-nav .quick-actions-title {
+      padding: 1.5rem 1.5rem 0.5rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.5);
+      font-weight: 600;
+      margin-top: 1rem; /* Espaço acima do título */
+      border-top: 1px solid rgba(255, 255, 255, 0.1); /* Linha separadora */
+  }
+  
+  .sidebar-nav .quick-link {
+      font-size: 0.9rem;
+      padding-left: 2.5rem; /* Indentação para acesso rápido */
+      font-weight: 400;
+  }
+  .sidebar-nav .quick-link.active {
+      font-weight: 500;
+  }
