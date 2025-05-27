@@ -15,12 +15,13 @@ const InvalidIcon = () => <span className="validation-icon invalid">&#10006;</sp
 
 // Constantes
 const ufsBrasil = ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"];
-const tiposPessoaClienteOptions = ['Pessoa Física', 'Pessoa Jurídica']; // Restaurado para o select
+const tiposPessoaClienteOptions = ['Pessoa Física', 'Pessoa Jurídica'];
+const estadosCivisOptions = ["", "Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)", "União Estável", "Outro"];
 
-function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = null }) {
+function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = null, onProfileCompleted }) {
   const navigate = useNavigate();
 
-  // Estados
+  // Estados Comuns
   const [etapaCadastro, setEtapaCadastro] = useState(
     modoCompletarPerfil && usuarioExistente?.papel && usuarioExistente.papel !== 'precisaCompletarCadastro' ? 2 : 1
   );
@@ -32,15 +33,26 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
   const [confirmPassword, setConfirmPassword] = useState('');
   const [nome, setNome] = useState(modoCompletarPerfil && usuarioExistente?.nome ? usuarioExistente.nome : '');
   const [telefone, setTelefone] = useState(modoCompletarPerfil && usuarioExistente?.telefone ? usuarioExistente.telefone : '');
+
+  // Estados Específicos do Advogado
   const [oab, setOab] = useState(modoCompletarPerfil && usuarioExistente?.oab ? usuarioExistente.oab : '');
   const [cpfAdvogado, setCpfAdvogado] = useState(modoCompletarPerfil && usuarioExistente?.cpfAdvogado ? usuarioExistente.cpfAdvogado : '');
   const [cpfAdvogadoStatus, setCpfAdvogadoStatus] = useState('idle');
-  const [tipoPessoaCliente, setTipoPessoaCliente] = useState( // Para o select do cliente
+
+  // Estados Específicos do Cliente (com novos campos)
+  const [tipoPessoaCliente, setTipoPessoaCliente] = useState(
     modoCompletarPerfil && usuarioExistente?.tipoPessoaCliente ? usuarioExistente.tipoPessoaCliente : tiposPessoaClienteOptions[0]
   );
   const [cpfCnpjCliente, setCpfCnpjCliente] = useState(modoCompletarPerfil && usuarioExistente?.cpfCnpjCliente ? usuarioExistente.cpfCnpjCliente : '');
   const [cpfCnpjClienteStatus, setCpfCnpjClienteStatus] = useState('idle');
-  // const [tipoDocumentoClienteDetectado, setTipoDocumentoClienteDetectado] = useState(''); // Removido, usamos tipoPessoaCliente
+  const [dataNascimento, setDataNascimento] = useState(modoCompletarPerfil && usuarioExistente?.dataNascimento ? usuarioExistente.dataNascimento : '');
+  const [estadoCivil, setEstadoCivil] = useState(modoCompletarPerfil && usuarioExistente?.estadoCivil ? usuarioExistente.estadoCivil : '');
+  const [profissao, setProfissao] = useState(modoCompletarPerfil && usuarioExistente?.profissao ? usuarioExistente.profissao : '');
+  const [nacionalidade, setNacionalidade] = useState(modoCompletarPerfil && usuarioExistente?.nacionalidade ? usuarioExistente.nacionalidade : 'Brasileiro(a)');
+  const [rg, setRg] = useState(modoCompletarPerfil && usuarioExistente?.rg ? usuarioExistente.rg : '');
+  const [nomeMae, setNomeMae] = useState(modoCompletarPerfil && usuarioExistente?.nomeMae ? usuarioExistente.nomeMae : '');
+  const [nomePai, setNomePai] = useState(modoCompletarPerfil && usuarioExistente?.nomePai ? usuarioExistente.nomePai : '');
+
   const [enderecoCEP, setEnderecoCEP] = useState(modoCompletarPerfil && usuarioExistente?.endereco?.cep ? usuarioExistente.endereco.cep : '');
   const [enderecoLogradouro, setEnderecoLogradouro] = useState(modoCompletarPerfil && usuarioExistente?.endereco?.logradouro ? usuarioExistente.endereco.logradouro : '');
   const [enderecoNumero, setEnderecoNumero] = useState(modoCompletarPerfil && usuarioExistente?.endereco?.numero ? usuarioExistente.endereco.numero : '');
@@ -48,6 +60,7 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
   const [enderecoBairro, setEnderecoBairro] = useState(modoCompletarPerfil && usuarioExistente?.endereco?.bairro ? usuarioExistente.endereco.bairro : '');
   const [enderecoCidade, setEnderecoCidade] = useState(modoCompletarPerfil && usuarioExistente?.endereco?.cidade ? usuarioExistente.endereco.cidade : '');
   const [enderecoUF, setEnderecoUF] = useState(modoCompletarPerfil && usuarioExistente?.endereco?.uf ? usuarioExistente.endereco.uf : (ufsBrasil.includes("SP") ? "SP" : ufsBrasil[0]));
+  
   const [loadingCEP, setLoadingCEP] = useState(false);
   const [cepStatus, setCepStatus] = useState('idle');
   const [error, setError] = useState(null);
@@ -61,7 +74,10 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
   const cpfMask = '000.000.000-00';
   const cnpjMask = '00.000.000/0000-00';
   const cepMask = '00000-000';
+  const dataMask = '00/00/0000';
+  const rgMask = '00.000.000-A'; // Exemplo, pode variar e ser ajustado
 
+  // Funções de Validação e CEP (useCallback)
   const handleCpfAdvogadoValidation = useCallback((currentCpf = cpfAdvogado) => {
     const cpfClean = String(currentCpf || '').replace(/\D/g, '');
     let localError = null;
@@ -118,6 +134,7 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
     finally { setLoadingCEP(false); }
   }, [enderecoCEP, error, setError, setCepStatus, setEnderecoLogradouro, setEnderecoBairro, setEnderecoCidade, setEnderecoUF]);
   
+  // Efeito para pré-preenchimento
   useEffect(() => {
     if (modoCompletarPerfil && usuarioExistente) {
       if (usuarioExistente.papel && usuarioExistente.papel !== 'precisaCompletarCadastro') {
@@ -125,6 +142,7 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
       } else { setEtapaCadastro(1); }
       setNome(usuarioExistente.nome || ''); setEmail(usuarioExistente.email || '');
       setTelefone(usuarioExistente.telefone || '');
+      
       if (usuarioExistente.papel === 'advogado' || (papelSelecionado === 'advogado' && modoCompletarPerfil)) {
         setOab(usuarioExistente.oab || '');
         const currentCpfAdv = usuarioExistente.cpfAdvogado || ''; setCpfAdvogado(currentCpfAdv);
@@ -137,6 +155,15 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
         const currentCpfCnpjCli = usuarioExistente.cpfCnpjCliente || '';
         setCpfCnpjCliente(currentCpfCnpjCli); setOriginalCpfCnpjCliente(currentCpfCnpjCli);
         if (currentCpfCnpjCli.replace(/\D/g, '').length > 0) handleCpfCnpjClienteValidation(currentCpfCnpjCli, currentTipoPessoaCli);
+        
+        setDataNascimento(usuarioExistente.dataNascimento || '');
+        setEstadoCivil(usuarioExistente.estadoCivil || '');
+        setProfissao(usuarioExistente.profissao || '');
+        setNacionalidade(usuarioExistente.nacionalidade || 'Brasileiro(a)');
+        setRg(usuarioExistente.rg || '');
+        setNomeMae(usuarioExistente.nomeMae || '');
+        setNomePai(usuarioExistente.nomePai || '');
+
         if (usuarioExistente.endereco) {
             const currentCep = usuarioExistente.endereco.cep || ''; setEnderecoCEP(currentCep);
             setEnderecoLogradouro(usuarioExistente.endereco.logradouro || '');
@@ -145,7 +172,7 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
             setEnderecoBairro(usuarioExistente.endereco.bairro || '');
             setEnderecoCidade(usuarioExistente.endereco.cidade || '');
             setEnderecoUF(usuarioExistente.endereco.uf || (ufsBrasil.includes("SP") ? "SP" : ufsBrasil[0]));
-            if(currentCep.replace(/\D/g, '').length === 8) { handleCepBlurCliente(currentCep); }
+            if(currentCep.replace(/\D/g, '').length === 8) handleCepBlurCliente(currentCep);
         }
       }
     }
@@ -161,16 +188,19 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
   const handleSelectRole = (papel) => { setPapelSelecionado(papel); setEtapaCadastro(2); setError(null); setSuccess(''); };
   const handleVoltarEtapa = () => { setEtapaCadastro(1); setError(null); setSuccess(''); };
 
-  // --- validateForm COMPLETO ---
   const validateForm = () => {
     setError(null);
-    if (!modoCompletarPerfil && (password.length < 6 || password !== confirmPassword)) {
+    if (!modoCompletarPerfil && (password.length < 6 || password !== confirmPassword)) { 
         if (password.length < 6 && password !== "") { setError("A senha deve ter no mínimo 6 caracteres."); return false;}
         else if (password !== confirmPassword) { setError("As senhas não coincidem."); return false; }
     }
     if (!nome.trim()) { setError("Nome completo é obrigatório."); return false; }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email.trim() || !emailRegex.test(email.trim())) { setError("E-mail inválido."); return false; }
+    
+    // Telefone agora é obrigatório
+    if (!telefone.trim()) { setError("Telefone é obrigatório."); return false; }
+    if (telefone.replace(/\D/g, '').length < 10) { setError("Telefone parece incompleto (mínimo 10 dígitos)."); return false; }
 
     if (papelSelecionado === 'advogado') {
       if (oab.trim() && oab.trim().length < 3) { setError("Número da OAB parece inválido."); return false; }
@@ -180,20 +210,44 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
       }
     } else if (papelSelecionado === 'cliente') {
       const cpfCnpjClean = cpfCnpjCliente.replace(/\D/g, '');
-      if (cpfCnpjClean.length > 0) {
-        if (cpfCnpjClienteStatus !== 'valid') {
-            setError(`${tipoPessoaCliente} do cliente inválido ou não verificado.`);
-            return false;
+      if (cpfCnpjClean.length === 0) { setError(`${tipoPessoaCliente} é obrigatório.`); return false; } // CPF/CNPJ Cliente obrigatório
+      if (cpfCnpjClienteStatus !== 'valid') { setError(`${tipoPessoaCliente} do cliente inválido ou não verificado.`); return false; }
+      
+      // Validação dos novos campos (obrigatórios como exemplo)
+      if (!dataNascimento.trim()) { setError("Data de nascimento é obrigatória."); return false; }
+      const dataNascParts = dataNascimento.split('/');
+      if (dataNascParts.length === 3) {
+        const dia = parseInt(dataNascParts[0], 10);
+        const mes = parseInt(dataNascParts[1], 10);
+        const ano = parseInt(dataNascParts[2], 10);
+        if (dia < 1 || dia > 31 || mes < 1 || mes > 12 || ano < 1900 || ano > new Date().getFullYear()) {
+            setError("Data de nascimento inválida."); return false;
         }
+      } else if (dataNascimento.trim()) { // Se algo foi digitado mas não tem 3 partes
+         setError("Formato da data de nascimento inválido (DD/MM/AAAA)."); return false;
       }
+
+      if (!estadoCivil) { setError("Estado civil é obrigatório."); return false; }
+      if (!profissao.trim()) { setError("Profissão é obrigatória."); return false; }
+      if (!nacionalidade.trim()) { setError("Nacionalidade é obrigatória."); return false; }
+      // RG é opcional
+      // Nome da Mãe e Pai são opcionais
+
       const cepClean = enderecoCEP.replace(/\D/g, '');
       if (cepClean.length > 0 && cepClean.length < 8 ) { setError("CEP incompleto."); setCepStatus('invalid'); return false; }
       if (cepClean.length === 8 && cepStatus !== 'valid') { setError("CEP inválido ou busca pendente. Verifique e aguarde."); return false; }
+      
+      if (cepStatus === 'valid') { // Endereço obrigatório se CEP validado
+        if (!enderecoLogradouro.trim()) { setError("Logradouro é obrigatório após busca de CEP."); return false; }
+        if (!enderecoNumero.trim()) { setError("Número do endereço é obrigatório."); return false; }
+        if (!enderecoBairro.trim()) { setError("Bairro é obrigatório após busca de CEP."); return false; }
+        if (!enderecoCidade.trim()) { setError("Cidade é obrigatória após busca de CEP."); return false; }
+        if (!enderecoUF.trim()) { setError("UF é obrigatório após busca de CEP."); return false; }
+      }
     }
     return true;
   };
 
-  // --- handleSubmitCadastro COMPLETO ---
   const handleSubmitCadastro = async (event) => {
     if (event) event.preventDefault();
     if (papelSelecionado === 'advogado' && cpfAdvogado.trim().length > 0) handleCpfAdvogadoValidation();
@@ -245,29 +299,42 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
              if(conflitoReal){ setError(`Este ${tipoPessoaCliente} de cliente já está cadastrado.`); setIsSubmitting(false); return; }
            }
         }
+        // Salvar novos dados pessoais do cliente
+        dadosUsuario.dataNascimento = dataNascimento || null; // Salva null se vazio
+        dadosUsuario.estadoCivil = estadoCivil || null;
+        dadosUsuario.profissao = profissao.trim() || null;
+        dadosUsuario.nacionalidade = nacionalidade.trim() || null;
+        dadosUsuario.rg = rg.trim() || null;
+        dadosUsuario.nomeMae = nomeMae.trim() || null;
+        dadosUsuario.nomePai = nomePai.trim() || null;
+
         if (enderecoCEP.replace(/\D/g, '').length === 8 && cepStatus === 'valid') {
             dadosUsuario.endereco = { cep: enderecoCEP, logradouro: enderecoLogradouro, numero: enderecoNumero, complemento: enderecoComplemento, bairro: enderecoBairro, cidade: enderecoCidade, uf: enderecoUF, };
         } else if (enderecoCEP.replace(/\D/g, '').length > 0 && cepStatus !== 'valid') { setError("Verifique o CEP antes de salvar."); setIsSubmitting(false); return; }
       }
       await setDoc(doc(db, "usuarios", userToProcess.uid), dadosUsuario, { merge: true });
-
+      
       if (isNewUserCreation) {
         await sendEmailVerification(userToProcess);
         setSuccess('Cadastro realizado! Verifique seu e-mail para ativar sua conta.');
-      } else { setSuccess('Perfil atualizado com sucesso!'); }
-
+      } else { 
+        setSuccess('Perfil atualizado com sucesso!');
+        if(onProfileCompleted) onProfileCompleted(); // Chama o callback do App.js
+      }
+      
       if (!modoCompletarPerfil) {
           setNome(''); setEmail(''); setPassword(''); setConfirmPassword(''); setTelefone('');
           setOab(''); setCpfAdvogado(''); setCpfAdvogadoStatus('idle');
           setTipoPessoaCliente(tiposPessoaClienteOptions[0]); setCpfCnpjCliente(''); setCpfCnpjClienteStatus('idle');
+          setDataNascimento(''); setEstadoCivil(''); setProfissao(''); setNacionalidade('Brasileiro(a)'); setRg(''); setNomeMae(''); setNomePai('');
           setEnderecoCEP(''); setEnderecoLogradouro(''); setEnderecoNumero(''); setEnderecoComplemento('');
           setEnderecoBairro(''); setEnderecoCidade(''); setEnderecoUF(ufsBrasil[0]); setCepStatus('idle');
       }
       setTimeout(() => {
         setSuccess('');
-        if (modoCompletarPerfil) { navigate(dadosUsuario.papel === 'advogado' ? '/' : '/portal-cliente'); }
+        if (modoCompletarPerfil) { /* A navegação é feita pelo onProfileCompleted no App.js */ }
         else { onSwitchMode('login'); }
-      }, modoCompletarPerfil ? 2000 : 4500);
+      }, modoCompletarPerfil ? 1500 : 3000); // Reduzido tempo para perfil completo
     } catch (err) {
       console.error("SignUp.js: Erro no cadastro:", err);
       let errorMessage = 'Erro ao realizar o cadastro.';
@@ -307,64 +374,72 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
       <h2>{modoCompletarPerfil ? 'Complete Seu Cadastro' : `Cadastro de ${papelSelecionado === 'advogado' ? 'Advogado' : 'Cliente'}`}</h2>
       <form onSubmit={handleSubmitCadastro}>
         <div className="form-grid">
-          <div className="form-group full-width"><label htmlFor="signup-nome">Nome Completo:</label><input type="text" id="signup-nome" value={nome} onChange={(e) => setNome(e.target.value)} required disabled={isSubmitting}/></div>
-          <div className="form-group full-width"><label htmlFor="signup-email">Email:</label><input type="email" id="signup-email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isSubmitting || modoCompletarPerfil}/></div>
-          <div className="form-group"><label htmlFor="signup-telefone">Telefone (Opcional):</label><IMaskInput mask={telefoneMask} value={telefone} onAccept={(v) => setTelefone(v)} id="signup-telefone" disabled={isSubmitting} placeholder="(XX) XXXXX-XXXX"/></div>
-
+          <div className="form-group full-width"><label htmlFor="signup-nome">Nome Completo: *</label><input type="text" id="signup-nome" value={nome} onChange={(e) => setNome(e.target.value)} required disabled={isSubmitting}/></div>
+          <div className="form-group full-width"><label htmlFor="signup-email">Email: *</label><input type="email" id="signup-email" value={email} onChange={(e) => setEmail(e.target.value)} required disabled={isSubmitting || modoCompletarPerfil}/></div>
+          <div className="form-group"><label htmlFor="signup-telefone">Telefone: *</label><IMaskInput mask={telefoneMask} value={telefone} onAccept={(v) => setTelefone(v)} id="signup-telefone" required disabled={isSubmitting} placeholder="(XX) XXXXX-XXXX"/></div>
+          
           {papelSelecionado === 'advogado' && (
             <>
               <div className="form-group"><label htmlFor="signup-oab">OAB (Ex: SP123456):</label><input type="text" id="signup-oab" value={oab} onChange={(e) => setOab(e.target.value)} disabled={isSubmitting} placeholder="UF e Número"/></div>
               <div className="form-group"><label htmlFor="signup-cpf-advogado">CPF (Advogado - Opcional):</label><div className={`input-with-validation ${cpfAdvogadoStatus}`}><IMaskInput mask={cpfMask} lazy={true} placeholderChar=" " value={cpfAdvogado} onAccept={(v) => {setCpfAdvogado(v); setCpfAdvogadoStatus('idle'); if(error && typeof error ==='string' && error.includes('CPF do adv')) setError(null);}} onBlur={() => handleCpfAdvogadoValidation()} id="signup-cpf-advogado" disabled={isSubmitting} placeholder="___.___.___-__"/>{cpfAdvogadoStatus === 'valid' && <ValidIcon />}{cpfAdvogadoStatus === 'invalid' && <InvalidIcon />}</div></div>
+               {/* Espaçador para manter o grid alinhado se este for o último campo da linha */}
+               <div className="form-group"></div>
             </>
           )}
 
           {papelSelecionado === 'cliente' && (
             <>
-              {/* SELECT para Tipo de Pessoa Cliente RESTAURADO */}
               <div className="form-group">
-                <label htmlFor="signup-tipoPessoaCliente">Você é:</label>
-                <select
-                  id="signup-tipoPessoaCliente"
-                  value={tipoPessoaCliente}
-                  onChange={(e) => {
-                    setTipoPessoaCliente(e.target.value);
-                    setCpfCnpjCliente('');
-                    setCpfCnpjClienteStatus('idle');
-                    setError(null);
-                  }}
-                  disabled={isSubmitting}
-                >
-                  {tiposPessoaClienteOptions.map(t => <option key={t} value={t}>{t}</option>)}
+                <label htmlFor="signup-tipoPessoaCliente">Você é: *</label>
+                <select id="signup-tipoPessoaCliente" value={tipoPessoaCliente} onChange={(e) => {setTipoPessoaCliente(e.target.value); setCpfCnpjCliente(''); setCpfCnpjClienteStatus('idle'); setError(null);}} disabled={isSubmitting} required>
+                    {tiposPessoaClienteOptions.map(t => <option key={t} value={t}>{t}</option>)}
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="signup-cpfCnpjCliente">
-                  {tipoPessoaCliente === 'Pessoa Física' ? 'CPF' : 'CNPJ'}:
-                </label>
-                <div className={`input-with-validation ${cpfCnpjClienteStatus}`}>
-                  <IMaskInput
-                    mask={tipoPessoaCliente === 'Pessoa Física' ? cpfMask : cnpjMask}
-                    lazy={true}
-                    placeholderChar=" "
-                    value={cpfCnpjCliente}
-                    onAccept={(value, maskRef) => {
-                        setCpfCnpjCliente(maskRef.value);
-                        setCpfCnpjClienteStatus('idle');
-                        if(error && (typeof error ==='string' &&(error.toLowerCase().includes('cpf') || error.toLowerCase().includes('cnpj')))) setError(null);
-                    }}
-                    onBlur={() => handleCpfCnpjClienteValidation(cpfCnpjCliente, tipoPessoaCliente)}
-                    id="signup-cpfCnpjCliente"
-                    disabled={isSubmitting}
-                    placeholder={tipoPessoaCliente === 'Pessoa Física' ? '___.___.___-__' : '__.___.___/____-__'}
-                    key={tipoPessoaCliente} // Força remontagem da máscara ao mudar tipo
-                  />
+                <label htmlFor="signup-cpfCnpjCliente">{tipoPessoaCliente === 'Pessoa Física' ? 'CPF' : 'CNPJ'}: *</label>
+                <div className={`input-with-validation ${cpfCnpjClienteStatus}`}><IMaskInput mask={tipoPessoaCliente === 'Pessoa Física' ? cpfMask : cnpjMask} lazy={true} placeholderChar=" " value={cpfCnpjCliente} onAccept={(value, maskRef) => { setCpfCnpjCliente(maskRef.value); setCpfCnpjClienteStatus('idle'); if(error && (typeof error ==='string' &&(error.toLowerCase().includes('cpf') || error.toLowerCase().includes('cnpj')))) setError(null);}} onBlur={() => handleCpfCnpjClienteValidation(cpfCnpjCliente, tipoPessoaCliente)} id="signup-cpfCnpjCliente" disabled={isSubmitting} placeholder={tipoPessoaCliente === 'Pessoa Física' ? '___.___.___-__' : '__.___.___/____-__'} key={tipoPessoaCliente} required/>
                   {!loadingCEP && cpfCnpjClienteStatus === 'valid' && <ValidIcon />}
                   {!loadingCEP && cpfCnpjClienteStatus === 'invalid' && <InvalidIcon />}
                 </div>
               </div>
+              
+              <h3 className='form-section-title full-width'>Dados Pessoais Adicionais</h3>
+              <div className="form-group">
+                <label htmlFor="signup-dataNascimento">Data de Nascimento: *</label>
+                <IMaskInput mask={dataMask} placeholder="DD/MM/AAAA" id="signup-dataNascimento" value={dataNascimento} onAccept={(v) => setDataNascimento(v)} disabled={isSubmitting} required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="signup-estadoCivil">Estado Civil: *</label>
+                <select id="signup-estadoCivil" value={estadoCivil} onChange={(e) => setEstadoCivil(e.target.value)} required disabled={isSubmitting}>
+                  {estadosCivisOptions.map(ec => <option key={ec} value={ec} disabled={ec === ""}>{ec === "" ? "-- Selecione --" : ec}</option>)}
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="signup-profissao">Profissão: *</label>
+                <input type="text" id="signup-profissao" value={profissao} onChange={(e) => setProfissao(e.target.value)} required disabled={isSubmitting}/>
+              </div>
+              <div className="form-group">
+                <label htmlFor="signup-nacionalidade">Nacionalidade: *</label>
+                <input type="text" id="signup-nacionalidade" value={nacionalidade} onChange={(e) => setNacionalidade(e.target.value)} required disabled={isSubmitting}/>
+              </div>
+              <div className="form-group">
+                <label htmlFor="signup-rg">RG (Opcional):</label>
+                <IMaskInput mask={rgMask} placeholder="00.000.000-X" id="signup-rg" value={rg} onAccept={(v) => setRg(v)} disabled={isSubmitting}/>
+              </div>
+              <div className="form-group"> {/* Espaçador para alinhar grid */} </div>
+
+              <div className="form-group full-width">
+                <label htmlFor="signup-nomeMae">Nome da Mãe (Opcional):</label>
+                <input type="text" id="signup-nomeMae" value={nomeMae} onChange={(e) => setNomeMae(e.target.value)} disabled={isSubmitting}/>
+              </div>
+              <div className="form-group full-width">
+                <label htmlFor="signup-nomePai">Nome do Pai (Opcional):</label>
+                <input type="text" id="signup-nomePai" value={nomePai} onChange={(e) => setNomePai(e.target.value)} disabled={isSubmitting}/>
+              </div>
+              
               <h3 className='form-section-title full-width'>Endereço do Cliente</h3>
               <div className="form-group"><label htmlFor="signup-enderecoCEPCliente">CEP:</label><div className={`input-with-feedback ${loadingCEP ? '' : cepStatus}`}><IMaskInput mask={cepMask} value={enderecoCEP} onAccept={(v) => {setEnderecoCEP(v); setCepStatus('idle'); if(error && typeof error ==='string' && error.includes("CEP")) setError(null);}} onBlur={() => handleCepBlurCliente()} id="signup-enderecoCEPCliente" disabled={isSubmitting || loadingCEP} placeholder="_____-___"/>{loadingCEP && <span className="loading-cep-spinner"></span>}{!loadingCEP && cepStatus === 'valid' && <ValidIcon />}{!loadingCEP && cepStatus === 'invalid' && <InvalidIcon />}</div></div>
-              <div className="form-group"></div> {/* Espaçador */}
+              <div className="form-group"></div>
               <div className="form-group full-width"><label htmlFor="signup-enderecoLogradouroCliente">Logradouro:</label><input type="text" id="signup-enderecoLogradouroCliente" value={enderecoLogradouro} onChange={(e) => setEnderecoLogradouro(e.target.value)} disabled={isSubmitting || loadingCEP} /></div>
               <div className="form-group"><label htmlFor="signup-enderecoNumeroCliente">Número:</label><input type="text" id="signup-enderecoNumeroCliente" value={enderecoNumero} onChange={(e) => setEnderecoNumero(e.target.value)} disabled={isSubmitting || loadingCEP} /></div>
               <div className="form-group"><label htmlFor="signup-enderecoComplementoCliente">Complemento:</label><input type="text" id="signup-enderecoComplementoCliente" value={enderecoComplemento} onChange={(e) => setEnderecoComplemento(e.target.value)} disabled={isSubmitting || loadingCEP} /></div>
@@ -377,8 +452,8 @@ function SignUp({ onSwitchMode, modoCompletarPerfil = false, usuarioExistente = 
 
           {!modoCompletarPerfil && (
             <React.Fragment>
-              <div className="form-group"><label htmlFor="signup-password">Nova Senha (mínimo 6 caracteres):</label><input type="password" id="signup-password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="6" disabled={isSubmitting}/></div>
-              <div className="form-group"><label htmlFor="signup-confirm-password">Confirmar Nova Senha:</label><input type="password" id="signup-confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength="6" disabled={isSubmitting}/></div>
+              <div className="form-group"><label htmlFor="signup-password">Nova Senha (mínimo 6 caracteres): *</label><input type="password" id="signup-password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="6" disabled={isSubmitting}/></div>
+              <div className="form-group"><label htmlFor="signup-confirm-password">Confirmar Nova Senha: *</label><input type="password" id="signup-confirm-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required minLength="6" disabled={isSubmitting}/></div>
             </React.Fragment>
           )}
         </div>

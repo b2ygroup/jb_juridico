@@ -10,19 +10,16 @@ import {
   orderBy,
   doc,
   updateDoc,
-  onSnapshot // Adicionado para lista de clientes em tempo real
+  onSnapshot
 } from "firebase/firestore";
 import { db, auth } from './firebaseConfig';
 import { IMaskInput } from 'react-imask';
-import './NovoProcessoPage.css'; // Certifique-se que este arquivo CSS existe e está estilizado
+import './NovoProcessoPage.css';
 
 const BackArrowIcon = () => <span style={{ marginRight: '0.5em' }}>&#8592;</span>;
-// AddIcon não está sendo usado, pode ser removido se não houver uso futuro
-// const AddIcon = () => <span style={{ marginRight: '0.5em' }}>&#43;</span>;
 
 const tiposDeProcessoDefault = [
-  "", // Para forçar seleção
-  "Cível", "Trabalhista", "Criminal", "Família", "Empresarial", "Tributário",
+  "", "Cível", "Trabalhista", "Criminal", "Família", "Empresarial", "Tributário",
   "Previdenciário", "Contratual", "Administrativo", "Consultivo", "Outro"
 ];
 const statusDeProcessoDefault = [
@@ -30,37 +27,53 @@ const statusDeProcessoDefault = [
   "Pendente Análise", "Concluído", "Arquivado"
 ];
 
+// LISTA EXEMPLO DE TRIBUNAIS - VOCÊ PRECISARÁ ADAPTAR E EXPANDIR ESTA LISTA!
+const tribunaisOptions = [
+    { sigla: "", nome: "-- Selecione o Tribunal --" },
+    { sigla: "TJSP", nome: "Tribunal de Justiça de São Paulo" },
+    { sigla: "TJRS", nome: "Tribunal de Justiça do Rio Grande do Sul" },
+    { sigla: "TJMG", nome: "Tribunal de Justiça de Minas Gerais" },
+    { sigla: "TRF1", nome: "Tribunal Regional Federal da 1ª Região" },
+    { sigla: "TRF2", nome: "Tribunal Regional Federal da 2ª Região" },
+    { sigla: "TRF3", nome: "Tribunal Regional Federal da 3ª Região" },
+    { sigla: "TRF4", nome: "Tribunal Regional Federal da 4ª Região" },
+    { sigla: "TRF5", nome: "Tribunal Regional Federal da 5ª Região" },
+    { sigla: "TRT1", nome: "Tribunal Regional do Trabalho da 1ª Região (RJ)" },
+    { sigla: "TRT2", nome: "Tribunal Regional do Trabalho da 2ª Região (SP)" },
+    { sigla: "TST",  nome: "Tribunal Superior do Trabalho" },
+    { sigla: "STJ",  nome: "Superior Tribunal de Justiça" },
+    { sigla: "STF",  nome: "Supremo Tribunal Federal" },
+    { sigla: "Outro", nome: "Outro (Especificar nas Observações)" }
+];
+
 function NovoProcessoPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Estados do Formulário
   const [numeroInterno, setNumeroInterno] = useState('');
   const [numeroOficial, setNumeroOficial] = useState('');
+  const [tribunal, setTribunal] = useState(''); // <<< NOVO ESTADO PARA TRIBUNAL
   const [clienteSelecionadoId, setClienteSelecionadoId] = useState('');
-  const [clienteSelecionadoNome, setClienteSelecionadoNome] = useState(''); // Para exibir nome se pré-selecionado
+  const [clienteSelecionadoNome, setClienteSelecionadoNome] = useState('');
   const [parteContraria, setParteContraria] = useState('');
-  const [tipo, setTipo] = useState(''); // Inicia vazio
+  const [tipo, setTipo] = useState('');
   const [status, setStatus] = useState(statusDeProcessoDefault[0]);
   const [dataAbertura, setDataAbertura] = useState(new Date().toISOString().split('T')[0]);
   const [valorCausa, setValorCausa] = useState('');
   const [observacoes, setObservacoes] = useState('');
-
-  // Estados de Controle
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
   const [submitSuccess, setSubmitSuccess] = useState('');
   const [listaClientes, setListaClientes] = useState([]);
   const [loadingClientes, setLoadingClientes] = useState(true);
   const [ocorrenciaOriginariaId, setOcorrenciaOriginariaId] = useState(null);
-  const [isClientePredefinido, setIsClientePredefinido] = useState(false); // Para controlar se o cliente veio da ocorrência
+  const [isClientePredefinido, setIsClientePredefinido] = useState(false);
 
-  // Efeito para buscar clientes em tempo real
   useEffect(() => {
     setLoadingClientes(true);
-    const currentUser = auth.currentUser;
-    if (currentUser) {
-      const q = query(collection(db, "clientes"), where("userId", "==", currentUser.uid), orderBy("nomeCompleto", "asc"));
+    const currentUserAuth = auth.currentUser;
+    if (currentUserAuth) {
+      const q = query(collection(db, "clientes"), where("userId", "==", currentUserAuth.uid), orderBy("nomeCompleto", "asc"));
       const unsubscribe = onSnapshot(q, (querySnapshot) => {
         const clientes = [];
         querySnapshot.forEach((doc) => {
@@ -80,7 +93,6 @@ function NovoProcessoPage() {
     }
   }, []);
 
-  // Efeito para pré-preenchimento com dados da ocorrência
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const ocorrenciaIdParam = params.get('ocorrenciaId');
@@ -92,7 +104,7 @@ function NovoProcessoPage() {
 
     if (ocorrenciaIdParam) {
       setOcorrenciaOriginariaId(ocorrenciaIdParam);
-      setNumeroInterno(`OC-${ocorrenciaIdParam.substring(0, 6).toUpperCase()}`); // Sugestão para número interno
+      setNumeroInterno(`OC-${ocorrenciaIdParam.substring(0, 6).toUpperCase()}`);
     }
     if (clienteIdParam) {
       setClienteSelecionadoId(clienteIdParam);
@@ -109,7 +121,7 @@ function NovoProcessoPage() {
         setTipo(tipoProcessoEncontrado);
       } else if (tiposDeProcessoDefault.includes("Outro")) {
         setTipo("Outro");
-        setObservacoes(prevObs => `${tipoDecodificado}\n${prevObs}`); // Adiciona tipo original nas observações
+        setObservacoes(prevObs => `${tipoDecodificado}\n${prevObs}`);
       }
     }
 
@@ -121,23 +133,20 @@ function NovoProcessoPage() {
       obsIniciais += `Descrição Original do Cliente:\n${decodeURIComponent(descricaoOcorrenciaParam)}`;
     }
     if (obsIniciais) {
-      setObservacoes(prevObs => obsIniciais + (prevObs ? `\n\n--- Observações Adicionais ---\n${prevObs}` : ''));
+      setObservacoes(prevObs => obsIniciais + (prevObs && !prevObs.startsWith(obsIniciais) ? `\n\n--- Observações Adicionais ---\n${prevObs}` : ''));
     }
-  }, [location.search]); // Executa quando os query params mudam
+  }, [location.search]);
 
-  // Efeito para limpar mensagem de sucesso
   useEffect(() => {
     let timer;
     if (submitSuccess) {
       timer = setTimeout(() => {
         setSubmitSuccess('');
-        // A navegação ocorre dentro do handleSubmit agora
       }, 3000);
     }
     return () => clearTimeout(timer);
   }, [submitSuccess]);
 
-  // Definição da máscara de moeda
   const currencyMaskDefinition = {
     mask: 'R$ num',
     blocks: {
@@ -155,7 +164,6 @@ function NovoProcessoPage() {
     placeholderChar: ' '
   };
 
-  // Validação do formulário
   const validateForm = () => {
     setSubmitError(null);
     if (!numeroInterno.trim() && !numeroOficial.trim()) {
@@ -166,40 +174,44 @@ function NovoProcessoPage() {
       setSubmitError("Selecione um cliente para o processo.");
       return false;
     }
-    if (!tipo) { // Verifica se um tipo de processo foi selecionado
+    if (!tipo) {
       setSubmitError("Selecione o tipo do processo.");
       return false;
     }
-    // Adicionar mais validações conforme necessário
+    // <<< NOVA VALIDAÇÃO PARA TRIBUNAL >>>
+    if (numeroOficial.trim() && !tribunal) {
+        setSubmitError("Se o Número Oficial (CNJ) for informado, o Tribunal é obrigatório.");
+        return false;
+    }
     return true;
   };
 
-  // Submit do formulário
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!validateForm()) {
-      window.scrollTo(0, 0); // Rola para o topo para ver o erro
+      window.scrollTo(0, 0);
       return;
     }
 
     setIsSubmitting(true);
     setSubmitError(null);
     setSubmitSuccess('');
-    const currentUserAuth = auth.currentUser; // Renomeado para evitar conflito com `currentUser` do App.js se passado
+    const currentUserAuth = auth.currentUser;
     if (!currentUserAuth) {
       setSubmitError("Usuário não autenticado. Por favor, faça login novamente.");
       setIsSubmitting(false);
-      navigate('/auth'); // Redireciona para login se não autenticado
+      navigate('/auth');
       return;
     }
 
-    const nomeClienteFinal = isClientePredefinido ? 
-                             clienteSelecionadoNome : 
+    const nomeClienteFinal = isClientePredefinido ?
+                             clienteSelecionadoNome :
                              (listaClientes.find(c => c.id === clienteSelecionadoId)?.nomeCompleto || 'Cliente não especificado');
 
     const novoProcesso = {
       numeroInterno: numeroInterno.trim(),
       numeroOficial: numeroOficial.trim(),
+      tribunal: tribunal || null, // <<< SALVAR O TRIBUNAL
       numeroOficialNumerico: numeroOficial.replace(/\D/g, ''),
       clienteId: clienteSelecionadoId,
       clienteNome: nomeClienteFinal,
@@ -207,7 +219,7 @@ function NovoProcessoPage() {
       tipo: tipo,
       status: status,
       dataAbertura: dataAbertura ? Timestamp.fromDate(new Date(dataAbertura + "T00:00:00")) : Timestamp.now(),
-      valorCausa: String(valorCausa || 'R$ 0,00'), // Garante que é string
+      valorCausa: String(valorCausa || 'R$ 0,00'),
       valorCausaNumerico: parseFloat(String(valorCausa || '0').replace(/[R$.\s]/g, '').replace(',', '.')),
       observacoes: observacoes.trim(),
       userId: currentUserAuth.uid,
@@ -230,9 +242,9 @@ function NovoProcessoPage() {
       }
 
       setSubmitSuccess(`Processo "${novoProcesso.numeroInterno || novoProcesso.numeroOficial}" salvo com sucesso!`);
-      // Limpar campos do formulário
       setNumeroInterno('');
       setNumeroOficial('');
+      setTribunal(''); // <<< LIMPAR CAMPO TRIBUNAL
       setClienteSelecionadoId('');
       setClienteSelecionadoNome('');
       setParteContraria('');
@@ -246,7 +258,7 @@ function NovoProcessoPage() {
 
       setTimeout(() => {
         setSubmitSuccess('');
-        navigate(`/processos/${docRef.id}`); // Navega para o detalhe do novo processo
+        navigate(`/processos/${docRef.id}`);
       }, 2000);
     } catch (e) {
       console.error("Erro ao salvar processo: ", e);
@@ -259,7 +271,7 @@ function NovoProcessoPage() {
   return (
     <div className="novo-processo-page">
       <div className="page-header">
-        <h2 className="page-title">{ocorrenciaOriginariaId ? "Novo Processo a Partir de Ocorrência" : "Adicionar Novo Processo"}</h2>
+        <h2 className="page-title">{ocorrenciaOriginariaId ? "Converter Ocorrência em Processo" : "Adicionar Novo Processo"}</h2>
         <button onClick={() => navigate(ocorrenciaOriginariaId ? `/ocorrencias/${ocorrenciaOriginariaId}` : '/processos')} className="button-secondary-alt" disabled={isSubmitting}>
           <BackArrowIcon /> Voltar
         </button>
@@ -273,12 +285,20 @@ function NovoProcessoPage() {
 
         <div className="form-grid">
           <div className="form-group">
-            <label htmlFor="numeroInterno">Número Interno (Sugestão: {`OC-${(ocorrenciaOriginariaId || "XXXXXX").substring(0,6).toUpperCase()}`}):</label>
+            <label htmlFor="numeroInterno">Número Interno (Sugestão: {ocorrenciaOriginariaId ? `OC-${ocorrenciaOriginariaId.substring(0,6).toUpperCase()}` : "Automático ou Manual"}):</label>
             <input type="text" id="numeroInterno" value={numeroInterno} onChange={(e) => setNumeroInterno(e.target.value)} disabled={isSubmitting}/>
           </div>
           <div className="form-group">
-            <label htmlFor="numeroOficial">Número Oficial (Tribunal):</label>
-            <input type="text" id="numeroOficial" value={numeroOficial} onChange={(e) => setNumeroOficial(e.target.value)} disabled={isSubmitting}/>
+            <label htmlFor="numeroOficial">Número Oficial (CNJ):</label>
+            <input type="text" id="numeroOficial" value={numeroOficial} onChange={(e) => setNumeroOficial(e.target.value)} disabled={isSubmitting} placeholder="Ex: 0000000-00.0000.0.00.0000"/>
+          </div>
+
+          {/* <<< NOVO CAMPO TRIBUNAL >>> */}
+          <div className="form-group">
+            <label htmlFor="tribunal">Tribunal (Se houver Nº Oficial):</label>
+            <select id="tribunal" value={tribunal} onChange={(e) => setTribunal(e.target.value)} disabled={isSubmitting}>
+              {tribunaisOptions.map(opt => <option key={opt.sigla} value={opt.sigla} disabled={opt.sigla === ""}>{opt.nome}</option>)}
+            </select>
           </div>
           
           <div className="form-group">
@@ -296,8 +316,8 @@ function NovoProcessoPage() {
               </select>
             )}
             {!isClientePredefinido && (
-                <Link 
-                    to={`/clientes/novo?origem=/processos/novo${location.search}`} // Passa os query params atuais para NovoCliente
+                <Link
+                    to={`/clientes/novo?origem=/processos/novo${location.search ? '&' + location.search.substring(1) : ''}`} // Passa os query params atuais para NovoCliente
                     className="link-add-new"
                 >
                 (Adicionar Novo Cliente)
@@ -331,19 +351,19 @@ function NovoProcessoPage() {
                 mask={currencyMaskDefinition.mask}
                 blocks={currencyMaskDefinition.blocks}
                 lazy={currencyMaskDefinition.lazy}
-                radix="," // Define o separador decimal como vírgula
-                mapToRadix={['.']} // Mapeia ponto para vírgula se digitado
-                scale={2} // Duas casas decimais
-                padFractionalZeros={true} // Adiciona zeros se necessário (ex: 10 -> 10,00)
-                normalizeZeros={true} // Remove zeros à esquerda desnecessários
+                radix=","
+                mapToRadix={['.']}
+                scale={2}
+                padFractionalZeros={true}
+                normalizeZeros={true}
                 id="valorCausa"
-                value={String(valorCausa)} // Garante que o valor é uma string para o IMaskInput
+                value={String(valorCausa)}
                 onAccept={(value) => setValorCausa(value)}
                 disabled={isSubmitting}
                 placeholder="R$ 0,00"
             />
           </div>
-          
+
           <div className="form-group full-width">
             <label htmlFor="observacoes">Observações / Detalhes Iniciais:</label>
             <textarea id="observacoes" value={observacoes} onChange={(e) => setObservacoes(e.target.value)} rows="6" disabled={isSubmitting}></textarea>
